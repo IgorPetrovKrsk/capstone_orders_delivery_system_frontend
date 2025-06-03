@@ -42,7 +42,6 @@ export function setupAxiosInterceptors() {
       } else {
         showError({ title: "Unexpected Error", errors: [error.message] });
       }
-
       return Promise.reject(error);
     }
   );

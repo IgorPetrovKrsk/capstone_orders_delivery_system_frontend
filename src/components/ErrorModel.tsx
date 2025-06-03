@@ -22,7 +22,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ errorData, onClose }) => {
             <div className={style.error}>
                 <div className={style.errorContext}>
                     <h2>{errorData.title}</h2>
-                    <ul>
+                    <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
                         {errorList}
                     </ul>
                     <button className={style.errorButton} onClick={onClose}>Close</button>
