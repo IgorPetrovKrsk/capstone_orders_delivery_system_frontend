@@ -21,7 +21,6 @@ export default function Login() {
         ev.preventDefault();
         try {
             await login(formData);
-            
             //nav('/dashboard');
         } catch (err) {
             console.error(err);
