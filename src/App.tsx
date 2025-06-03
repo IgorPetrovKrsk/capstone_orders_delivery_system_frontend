@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css'
-import AdminRoutes from './components/protectedRoutes/AdminRoutes';
+import ProtectedRoutes from './components/protectedRoutes/ProtectedRoutes';
 import Login from './pages/Login';
 import api, { setupAxiosInterceptors } from './api';
 import AdminDashBoard from './pages/dashboards/AdminDashboard';
@@ -50,20 +50,20 @@ function App() {
 
   }, [user])
 
-
-
   return (
     <>
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route element={<AdminRoutes />}>
+        <Route element={<ProtectedRoutes role='admin' />}>
           <Route path='/admindashboard' element={<AdminDashBoard />} />
-          <Route path='/dispatcherdashboard' element={<DispatcherDashBoard />} />
-          <Route path='/admindashboard' element={<DriverDashBoard />} />
         </Route>
-
-      </Routes>
-
+        <Route element={<ProtectedRoutes role='dispatcher' />}>
+          <Route path='/dispatcherdashboard' element={<DispatcherDashBoard />} />
+        </Route>
+        <Route element={<ProtectedRoutes role='driver' />}>
+          <Route path='/driverdashboard' element={<DriverDashBoard />} />
+        </Route>
+      </Routes >
     </>
   )
 }

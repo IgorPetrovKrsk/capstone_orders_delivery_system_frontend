@@ -21,8 +21,7 @@ export default function Login() {
         ev.preventDefault();
         try {
             await login(formData);
-            console.log(cookies);
-            //nav('/dashboard');
+            //nav('/dashboard'); //app.ts will handle the navigation
         } catch (err) {
             console.error(err);
         }
