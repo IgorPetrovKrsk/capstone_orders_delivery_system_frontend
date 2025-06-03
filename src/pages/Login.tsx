@@ -9,7 +9,7 @@ export default function Login() {
     const { login } = useAuth();
 
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: ''
     })
 
@@ -21,7 +21,8 @@ export default function Login() {
         ev.preventDefault();
         try {
             await login(formData);
-            nav('/dashboard');
+            
+            //nav('/dashboard');
         } catch (err) {
             console.error(err);
         }

@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+import api from "../../api";
+
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -24,16 +25,22 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export default function AuthProvider({ children }: AuthProviderProps) {
     const [cookies, setCookie, removeCookie] = useCookies();
 
-    let baseUrl = import.meta.env.BASE_URL;
+    //let baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
     async function createUser(formData: LoginData) {
-        let res = await axios.post(`${baseUrl}/users`, formData);
-        setCookie('x-auth-token', res.data.token);
+        try {
+            let res = await api.post(`/users`, formData);
+            setCookie('x-auth-token', res.data.token);
+        } catch (error) { //errors wii be handled by the api middleware
+        }
     }
 
     async function login(formData: LoginData) {
-        let res = await axios.post(`${baseUrl}/users/login`, formData)
-        setCookie('x-auth-token', res.data.token);
+        try {
+            let res = await api.post(`/users/login`, formData)
+            setCookie('x-auth-token', res.data.token);
+        } catch (error) { //errors wii be handled by the api middleware
+        }
     }
 
     function logout() {

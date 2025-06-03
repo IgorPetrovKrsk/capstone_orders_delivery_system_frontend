@@ -1,17 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import ProtectedRoutes from './components/ProtectedRoutes';
 import Login from './pages/Login';
+import { setupAxiosInterceptors } from './api';
 
 function App() {
 
+  setupAxiosInterceptors();
+
   return (
     <>
-      <Login />
       <Routes>
-
+        <Route path='/' element={<Login />} />
         <Route element={<ProtectedRoutes />}>
 
         </Route>
