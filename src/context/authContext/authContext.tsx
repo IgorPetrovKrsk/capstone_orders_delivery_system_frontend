@@ -30,7 +30,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     async function createUser(formData: LoginData) {
         try {
             let res = await api.post(`/users`, formData);
-            setCookie('x-auth-token', res.data.token);
+            setCookie('token', res.data.token);
         } catch (error) { //errors will be handled by the api middleware
         }
     }
@@ -38,7 +38,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     async function login(formData: LoginData) {
         try {
             let res = await api.post(`/users/login`, formData)
-            setCookie('x-auth-token', res.data.token);
+            setCookie('token', res.data.token);
         } catch (error) { //errors will be handled by the api middleware
         }
     }

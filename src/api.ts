@@ -38,9 +38,9 @@ export function setupAxiosInterceptors() {
         const errors = error.response.data.error;
         showError({ title, errors });
       } else if (error.request) {
-        showError({ title: "Network Error", errors: ["No response received"] });
+        showError({ title: "Network Error", errors: [{msg:"No response received"}] });
       } else {
-        showError({ title: "Unexpected Error", errors: [error.message] });
+        showError({ title: "Unexpected Error", errors: [{msg:error.message}] });
       }
       return Promise.reject(error);
     }

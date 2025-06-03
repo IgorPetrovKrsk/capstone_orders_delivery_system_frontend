@@ -1,9 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
 import ErrorModal from "../../components/ErrorModel";
 
+interface ErrorMsg {
+  msg: string;
+}
+
 interface ErrorData {
-  title: string;
-  errors: string[];
+    title: string;
+    errors: ErrorMsg[];
 }
 
 interface ErrorContextType {
@@ -14,7 +18,7 @@ interface ErrorContextType {
 
 const ErrorContext = createContext<ErrorContextType | null>(null);
 
-export function ErrorProvider({ children }: { children: React.ReactNode }) {
+export default function ErrorProvider({ children }: { children: React.ReactNode }) {
   const [errorData, setErrorData] = useState<ErrorData | null>(null);
 
   const showError = (data: ErrorData) => setErrorData(data);

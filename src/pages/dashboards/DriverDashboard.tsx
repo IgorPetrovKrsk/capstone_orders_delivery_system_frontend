@@ -1,7 +1,7 @@
-export default function AdminDashBoard() {
+export default function DriverDashBoard() {
     return (
         <>
-            <h1>Admin dashboard</h1>
+            <h1>Driver dashboard</h1>
         </>
     )
 }

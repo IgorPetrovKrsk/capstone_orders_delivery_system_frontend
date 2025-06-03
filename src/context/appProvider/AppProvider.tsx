@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import AuthProvider from "../authContext/authContext"
-import { ErrorProvider } from "../globalErrorContext/globalErrorContext";
+import ErrorProvider from "../globalErrorContext/globalErrorContext";
+import UserProvider from "../user/userContext";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -9,9 +10,11 @@ interface AppProviderProps {
 export default function AppProvider({ children }: AppProviderProps) {
   return (
     <ErrorProvider>
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      <UserProvider>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </UserProvider>
     </ErrorProvider>
   )
 }
