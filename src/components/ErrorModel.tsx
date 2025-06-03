@@ -16,7 +16,7 @@ interface ErrorModalProps {
 }
 
 const ErrorModal: React.FC<ErrorModalProps> = ({ errorData, onClose }) => {
-    const errorList = errorData.errors?.map(it => <li>{it.msg}</li>)
+    const errorList = errorData.errors?.map(it => <li key={it.msg}>{it.msg}</li>)
     return (
         <div className={style.errorOverlay}>
             <div className={style.error}>

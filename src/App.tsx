@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css'
 import AdminRoutes from './components/protectedRoutes/AdminRoutes';
 import Login from './pages/Login';
@@ -6,7 +6,7 @@ import api, { setupAxiosInterceptors } from './api';
 import AdminDashBoard from './pages/dashboards/AdminDashboard';
 import DispatcherDashBoard from './pages/dashboards/DispatcherDashboard';
 import DriverDashBoard from './pages/dashboards/DriverDashboard';
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 import { useAuth } from './context/authContext/authContext';
 import { useUser } from './context/user/userContext';
 
@@ -14,14 +14,15 @@ function App() {
 
   setupAxiosInterceptors();
 
+  const nav = useNavigate();
   const { cookies } = useAuth();
   const { user, setUser } = useUser();
 
   useEffect(() => {
     async function getUser() {
       try {
-        let res = await api.get(`/user`, {
-          headers: { 'x-auth-token': cookies.token }
+        let res = await api.get(`/users/user`, {
+          headers: { 'token': cookies.token }
         });
         setUser(res.data);
       } catch (err) {
@@ -31,6 +32,23 @@ function App() {
     if (cookies.token && !user)
       getUser();
   }, [cookies.token])
+
+  useEffect(() => {
+    switch (user?.role) {
+      case "admin":
+        nav('/admindashboard')
+        break;
+      case "dispatcher":
+        nav('/dispatcherdashboard')
+        break;
+      case "driver":
+        nav('/admindashboard')
+        break;
+      default:
+        nav('/');
+    }
+
+  }, [user])
 
 
 

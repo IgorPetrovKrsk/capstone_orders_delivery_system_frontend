@@ -3,7 +3,7 @@ import { useError } from "./context/globalErrorContext/globalErrorContext";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_BASE_URL, // Use your backend URL
-  timeout: 5000, // Optional: Set request timeout
+  timeout: 10000, // Optional: Set request timeout
 });
 
 // api.interceptors.request.use(

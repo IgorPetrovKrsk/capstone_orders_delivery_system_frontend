@@ -6,7 +6,7 @@ import style from './login.module.css'
 export default function Login() {
 
     const nav = useNavigate();
-    const { login } = useAuth();
+    const { login, cookies } = useAuth();
 
     const [formData, setFormData] = useState({
         username: '',
@@ -21,6 +21,7 @@ export default function Login() {
         ev.preventDefault();
         try {
             await login(formData);
+            console.log(cookies);
             //nav('/dashboard');
         } catch (err) {
             console.error(err);
@@ -36,7 +37,7 @@ export default function Login() {
             <h2>Login</h2>
             <form autoComplete='off' onSubmit={onSubmit}>
                 <div >
-                    <label  htmlFor='username'>Username: </label>
+                    <label htmlFor='username'>Username: </label>
                     <input type='username' onChange={onChange} id='username' name='username' placeholder='Username' />
                     <br />
                 </div>
