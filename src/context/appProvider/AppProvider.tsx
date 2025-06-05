@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import AuthProvider from "../authContext/authContext"
 import ErrorProvider from "../globalErrorContext/globalErrorContext";
-import UserProvider from "../user/userContext";
+import UserProvider from "../userContext/userContext";
 
 interface AppProviderProps {
   children: ReactNode;

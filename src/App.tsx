@@ -6,9 +6,10 @@ import api, { setupAxiosInterceptors } from './api';
 import AdminDashBoard from './pages/dashboards/AdminDashboard';
 import DispatcherDashBoard from './pages/dashboards/DispatcherDashboard';
 import DriverDashBoard from './pages/dashboards/DriverDashboard';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from './context/authContext/authContext';
-import { useUser } from './context/user/userContext';
+import { useUser } from './context/userContext/userContext';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
         nav('/admindashboard')
         break;
       default:
-        nav('/');
+        //nav('/');
     }
 
   }, [user])
@@ -63,6 +64,7 @@ function App() {
         <Route element={<ProtectedRoutes role='driver' />}>
           <Route path='/driverdashboard' element={<DriverDashBoard />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes >
     </>
   )

@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import { useCookies } from "react-cookie";
 import api from "../../api";
+import { useUser } from '../userContext/userContext';
 
 
 interface AuthProviderProps {
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
     const [cookies, setCookie, removeCookie] = useCookies();
+    const {setUser} = useUser();
 
     //let baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -43,10 +45,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    function logout() {
+    function logout() {        
         ['token'].forEach((cookie) => {
             removeCookie(cookie);
-        })
+        });
+        setUser(null);
     }
 
     const value = useMemo(() => ({
