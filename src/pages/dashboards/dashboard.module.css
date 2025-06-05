@@ -1,0 +1,13 @@
+.divMain{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.tableUsers{
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid ;
+    padding: 8px;
+    text-align: left;
+  }

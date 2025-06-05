@@ -3,13 +3,13 @@ import './App.css'
 import ProtectedRoutes from './components/protectedRoutes/ProtectedRoutes';
 import Login from './pages/Login';
 import api, { setupAxiosInterceptors } from './api';
-import AdminDashBoard from './pages/dashboards/AdminDashboard';
 import DispatcherDashBoard from './pages/dashboards/DispatcherDashboard';
 import DriverDashBoard from './pages/dashboards/DriverDashboard';
 import { useEffect } from 'react';
 import { useAuth } from './context/authContext/authContext';
 import { useUser } from './context/userContext/userContext';
 import NotFound from './pages/NotFound/NotFound';
+import AdminDashBoardUsers from './pages/dashboards/AdminDashboardUsers';
 
 function App() {
 
@@ -37,7 +37,7 @@ function App() {
   useEffect(() => {
     switch (user?.role) {
       case "admin":
-        nav('/admindashboard')
+        nav('/admindashboardusers')
         break;
       case "dispatcher":
         nav('/dispatcherdashboard')
@@ -56,7 +56,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route element={<ProtectedRoutes role='admin' />}>
-          <Route path='/admindashboard' element={<AdminDashBoard />} />
+          <Route path='/admindashboardusers' element={<AdminDashBoardUsers />} />
         </Route>
         <Route element={<ProtectedRoutes role='dispatcher' />}>
           <Route path='/dispatcherdashboard' element={<DispatcherDashBoard />} />
