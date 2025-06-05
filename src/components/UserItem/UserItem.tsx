@@ -1,7 +1,9 @@
+import { useState } from "react";
 import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
 import type { User } from "../../context/userContext/userContext";
 import styles from './userItem.module.css'
+import UserItemAddModify from "./UserItemAddModify";
 
 interface UserItemProps {
     userItem: User;
@@ -11,7 +13,11 @@ interface UserItemProps {
 
 
 export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
+    
     const { cookies } = useAuth();
+    const [modify,setModify] = useState(false);
+
+
     async function onDelete() {
         const confirmDelete = confirm(`Are you sure you want to delete user ${userItem.username}?`);
         if (confirmDelete) {
@@ -26,7 +32,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
         }
     }
     function onEdit() {
-        alert(`On edit clicked on User ${userItem._id}`)
+        setModify(true);
     }
     async function onActiveChange() {
         try {
@@ -51,6 +57,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
                 <td><button onClick={onEdit}>Edit</button></td>
                 <td><button onClick={onDelete}>Delete</button></td>
             </tr>
+            {modify && <UserItemAddModify userItem = {userItem} setModify={setModify}/>}
         </>
     )
 }
