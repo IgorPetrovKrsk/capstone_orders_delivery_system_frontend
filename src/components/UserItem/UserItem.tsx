@@ -30,7 +30,11 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
     }
     async function onActiveChange() {
         try {
-            
+            await api.put(`/users/${userItem._id}`,
+                { ...userItem, isActive: !userItem.isActive },
+                { headers: { 'token': cookies.token } }
+            );
+            setUpdateUsers(state => !state)
         } catch (err) {
             console.error(err);
         }
