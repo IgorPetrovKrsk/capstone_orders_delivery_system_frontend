@@ -9,6 +9,7 @@ import UserItem from "../../components/UserItem/UserItem";
 export default function AdminDashBoardUsers() {
     const { cookies } = useAuth();
     const [users, setUsers] = useState<User[] | null>([]);
+    const [updateUsers, setUpdateUsers] = useState(false)
 
     useEffect(() => {
         async function getUsers() {
@@ -21,8 +22,8 @@ export default function AdminDashBoardUsers() {
                 console.error(err);
             }
         }
-        getUsers();
-    }, [])
+        getUsers();        
+    }, [updateUsers])
 
     let loading = () => {
         return <p>Loading users</p>
@@ -31,7 +32,7 @@ export default function AdminDashBoardUsers() {
     let loaded = () => {
         return (
             <tbody>
-                {users?.map((it) => <UserItem userItem={it} key={it._id}/>)}
+                {users?.map((it) => <UserItem userItem={it} setUpdateUsers={setUpdateUsers} key={it._id}/>)}
             </tbody>
         )
     }
