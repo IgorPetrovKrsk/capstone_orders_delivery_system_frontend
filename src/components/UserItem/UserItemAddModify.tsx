@@ -16,9 +16,10 @@ interface UserForm {
     username: string;
     role: string;
     isActive: boolean;
-    truck?:string;
+    truck?: string;
     password?: string;
     password2?: string;
+    imgUrl?: string
 }
 
 
@@ -27,7 +28,17 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
     const { showError } = useError();
     const { cookies } = useAuth();
 
-    const [formData, setFormData] = useState<UserForm>({ ...userItem});
+    const [formData, setFormData] = useState<UserForm>({ ...userItem });
+
+    function onClearImage(ev: React.MouseEvent<HTMLButtonElement>){
+        ev.preventDefault();
+        setFormData({...formData,imgUrl:''});
+    }
+
+    function onUploadImg(ev: React.MouseEvent<HTMLButtonElement>){
+         ev.preventDefault();
+        setFormData({...formData,imgUrl:'https://igor-petrov-krsk-transport-management-system.s3.us-east-2.amazonaws.com/Comrade+Codich+Trucks.png'});
+    }
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const value = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
@@ -45,7 +56,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
             showError({ title: "Passwords should match", errors: [] });
             return;
         }
-        if (formData.password?.trim()=='' && formData.password2?.trim()==''){ //if passwords are empty we will not change passwors so sending put request without passwords
+        if (formData.password?.trim() == '' && formData.password2?.trim() == '') { //if passwords are empty we will not change passwors so sending put request without passwords
             delete formData.password;
             delete formData.password2;
         }
@@ -66,11 +77,15 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
             <div className={style.user}>
                 <div className={style.userContent}>
                     <h2>User {userItem.username || 'New User'}</h2>
-                    <img className={style.imgUserModify} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} />
+                    <img className={style.imgUserModify} src={formData.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} />
                     <br />
-                    <button>Upload new image</button>
-                    <br />
+
                     <form >
+                        <div className={style.btnSaveCancel}>
+                            <button onClick={onUploadImg}>Upload new image</button>
+                            <button onClick={onClearImage}>X</button>
+                        </div>
+                        <br />
                         <label htmlFor="">Username: </label>
                         <input type="text" name="username" value={formData.username} onChange={onChange} />
                         <br />
@@ -94,16 +109,18 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
                         <br />
                         <label htmlFor="">Repeat password: </label>
                         <input type='password' name="password2" value={formData.password2} onChange={onChange} placeholder="Repeat password" />
+                        <br />
+                        <br />
                         <div className={style.btnSaveCancel}>
-                            <button className={style.saveCancelButton} onClick={onSave} >Save</button>
-                            <button className={style.saveCancelButton} onClick={onCancel}>Cancel</button>
+                            <button onClick={onSave} >Save</button>
+                            <button onClick={onCancel}>Cancel</button>
                         </div>
                     </form>
 
                 </div>
             </div>
-        </div>,        
-        document.getElementById("modal-root")??document.createDocumentFragment());
+        </div>,
+        document.getElementById("modal-root") ?? document.createDocumentFragment());
 };
 
 export default UserItemAddModify;
