@@ -4,6 +4,8 @@ import type { User } from "../../context/userContext/userContext";
 import { useError } from "../../context/globalErrorContext/globalErrorContext";
 import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
+import ReactDOM from "react-dom";
+
 
 interface UserItemProps {
     userItem: User;
@@ -28,7 +30,8 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
     const [formData, setFormData] = useState<UserForm>({ ...userItem});
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        setFormData({ ...formData, [ev.target.name]: ev.target.value })
+        const value = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
+        setFormData({ ...formData, [ev.target.name]: value })
     }
 
     function onCancel(ev: React.MouseEvent<HTMLButtonElement>) {
@@ -40,6 +43,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
         ev.preventDefault();
         if (formData.password != formData.password2 && formData.password?.trim()) {
             showError({ title: "Passwords should match", errors: [] });
+            return;
         }
         if (formData.password?.trim()=='' && formData.password2?.trim()==''){ //if passwords are empty we will not change passwors so sending put request without passwords
             delete formData.password;
@@ -57,7 +61,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
     }
 
 
-    return (
+    return ReactDOM.createPortal(
         <div className={style.userOverlay}>
             <div className={style.user}>
                 <div className={style.userContent}>
@@ -79,11 +83,11 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
                         <br />
                         <label htmlFor="">Truck:</label>
                         <select name="truck" onChange={onChange} value={formData.truck}>
-                            {/* Need to get all awailable trucks and generate dynamic options */}
+                            <option value=''>------</option>
                         </select>
                         <br />
                         <label htmlFor="">User active: </label>
-                        <input type="checkbox" checked={formData.isActive} />
+                        <input type="checkbox" name='isActive' checked={formData.isActive} onChange={onChange} />
                         <br />
                         <label htmlFor="">Password: </label>
                         <input type='password' name="password" value={formData.password} onChange={onChange} placeholder="Password" />
@@ -98,8 +102,8 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
 
                 </div>
             </div>
-        </div>
-    );
+        </div>,        
+        document.getElementById("modal-root")??document.createDocumentFragment());
 };
 
 export default UserItemAddModify;

@@ -1,5 +1,6 @@
 import React from "react";
 import style from './error.module.css'
+import ReactDOM from "react-dom";
 
 interface ErrorMsg {
   msg: string;
@@ -17,7 +18,7 @@ interface ErrorModalProps {
 
 const ErrorModal: React.FC<ErrorModalProps> = ({ errorData, onClose }) => {
     const errorList = errorData.errors?.map(it => <li key={it.msg}>{it.msg}</li>)
-    return (
+    return ReactDOM.createPortal(
         <div className={style.errorOverlay}>
             <div className={style.error}>
                 <div className={style.errorContext}>
@@ -29,7 +30,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ errorData, onClose }) => {
                 </div>
             </div>
         </div>
-    );
+    ,document.getElementById("modal-root")??document.createDocumentFragment());
 };
 
 export default ErrorModal;

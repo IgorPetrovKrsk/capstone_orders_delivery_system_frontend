@@ -55,7 +55,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
                 <td>{userItem.truck}</td>
                 <td><input type="checkbox" checked={userItem.isActive} onChange={onActiveChange} /></td>
                 <td><button onClick={onEdit}>Edit</button></td>
-                <td><button onClick={onDelete}>Delete</button></td>
+                <td><button onClick={onDelete}>Delete</button></td>                
             </tr>
             {modify && <UserItemAddModify userItem = {userItem} setModify={setModify}/>}
         </>

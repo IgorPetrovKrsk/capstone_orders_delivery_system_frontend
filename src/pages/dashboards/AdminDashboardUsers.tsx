@@ -22,17 +22,29 @@ export default function AdminDashBoardUsers() {
                 console.error(err);
             }
         }
-        getUsers();        
+        getUsers();
     }, [updateUsers])
 
     let loading = () => {
-        return <p>Loading users</p>
+        return (
+            <tbody>
+                <tr>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                    <td>loading...</td>
+                </tr>
+            </tbody>
+        )
     }
 
     let loaded = () => {
         return (
             <tbody>
-                {users?.map((it) => <UserItem userItem={it} setUpdateUsers={setUpdateUsers} key={it._id}/>)}
+                {users?.map((it) => <UserItem userItem={it} setUpdateUsers={setUpdateUsers} key={it._id} />)}
             </tbody>
         )
     }
