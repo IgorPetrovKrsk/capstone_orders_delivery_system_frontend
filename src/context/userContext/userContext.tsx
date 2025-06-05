@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-type UserRole = "admin" | "dispatcher" | "driver";
+export type UserRole = "admin" | "dispatcher" | "driver";
 
-interface User {
+export interface User {
+  _id:string;
   username: string;
   role: UserRole;
   truck?: string;
+  isActive: boolean;
+  imgUrl?: string;
 }
 
 interface UserContextType {

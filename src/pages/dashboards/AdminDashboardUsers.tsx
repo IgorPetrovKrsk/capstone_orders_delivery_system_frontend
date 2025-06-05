@@ -1,7 +1,41 @@
+import { useEffect, useState } from "react"
 import AdminNav from "../../components/nav/AdminNav"
 import styles from './dashboard.module.css'
+import api from "../../api";
+import { useAuth } from "../../context/authContext/authContext";
+import type { User } from "../../context/userContext/userContext";
+import UserItem from "../../components/UserItem/UserItem";
 
 export default function AdminDashBoardUsers() {
+    const { cookies } = useAuth();
+    const [users, setUsers] = useState<User[] | null>([]);
+
+    useEffect(() => {
+        async function getUsers() {
+            try {
+                let res = await api.get(`/users`, {
+                    headers: { 'token': cookies.token }
+                });
+                setUsers(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        getUsers();
+    }, [])
+
+    let loading = () => {
+        return <p>Loading users</p>
+    }
+
+    let loaded = () => {
+        return (
+            <tbody>
+                {users?.map((it) => <UserItem userItem={it} key={it._id}/>)}
+            </tbody>
+        )
+    }
+
     return (
         <>
             <AdminNav />
@@ -15,10 +49,11 @@ export default function AdminDashBoardUsers() {
                             <th>Role</th>
                             <th>Truck</th>
                             <th>Active</th>
-                            <th></th> 
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
+                    {(users?.length != 0) ? loaded() : loading()}
                 </table>
             </div>
         </>
