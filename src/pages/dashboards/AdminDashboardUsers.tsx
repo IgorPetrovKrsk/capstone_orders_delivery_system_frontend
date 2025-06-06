@@ -14,7 +14,7 @@ export default function AdminDashBoardUsers() {
     useEffect(() => {
         async function getUsers() {
             try {
-                let res = await api.get(`/users`, {
+                const res = await api.get(`/users`, {
                     headers: { 'token': cookies.token }
                 });
                 setUsers(res.data);
@@ -25,7 +25,7 @@ export default function AdminDashBoardUsers() {
         getUsers();
     }, [updateUsers])
 
-    let loading = () => {
+    const loading = () => {
         return (
             <tbody>
                 <tr>
@@ -41,7 +41,7 @@ export default function AdminDashBoardUsers() {
         )
     }
 
-    let loaded = () => {
+    const loaded = () => {
         return (
             <tbody>
                 {users?.map((it) => <UserItem userItem={it} setUpdateUsers={setUpdateUsers} key={it._id} />)}

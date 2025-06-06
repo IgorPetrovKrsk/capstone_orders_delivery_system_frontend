@@ -57,7 +57,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
                 <td><button onClick={onEdit}>Edit</button></td>
                 <td><button onClick={onDelete}>Delete</button></td>                
             </tr>
-            {modify && <UserItemAddModify userItem = {userItem} setModify={setModify}/>}
+            {modify && <UserItemAddModify userItem = {userItem} setModify={setModify} setUpdateUsers={setUpdateUsers}/>}
         </>
     )
 }

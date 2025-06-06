@@ -5,11 +5,13 @@ import { useError } from "../../context/globalErrorContext/globalErrorContext";
 import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 
 interface UserItemProps {
     userItem: User;
     setModify: React.Dispatch<React.SetStateAction<boolean>>
+    setUpdateUsers: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface UserForm {
@@ -23,21 +25,46 @@ interface UserForm {
 }
 
 
-const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: UserItemProps) => {
+const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUpdateUsers }: UserItemProps) => {
 
     const { showError } = useError();
     const { cookies } = useAuth();
 
     const [formData, setFormData] = useState<UserForm>({ ...userItem });
+    const [file, setFile] = useState<File | null>(null);
 
-    function onClearImage(ev: React.MouseEvent<HTMLButtonElement>){
+    function onFileChange(ev: React.ChangeEvent<HTMLInputElement>) {
+        setFile(ev.target.files?.[0] || null);
+    };
+
+    function onClearImage(ev: React.MouseEvent<HTMLButtonElement>) {
         ev.preventDefault();
-        setFormData({...formData,imgUrl:''});
+        setFile(null);
+        setFormData({ ...formData, imgUrl: '' });
     }
 
-    function onUploadImg(ev: React.MouseEvent<HTMLButtonElement>){
-         ev.preventDefault();
-        setFormData({...formData,imgUrl:'https://igor-petrov-krsk-transport-management-system.s3.us-east-2.amazonaws.com/Comrade+Codich+Trucks.png'});
+    async function onUploadImg(ev: React.MouseEvent<HTMLButtonElement>) {
+        ev.preventDefault();
+        if (!file) {
+            showError({ title: "Choose an image", errors: [] });
+            return;
+        }
+        try {
+            const res = await api.get(`/s3-url`, {
+                headers: { 'token': cookies.token }
+            });
+            await axios.put(res.data.url,
+                file,
+                {
+                    headers: {
+                        "Content-Type": file?.type
+                    }
+                });
+            setFormData({ ...formData, imgUrl: res.data.staticUrl });
+        } catch (err) {
+            console.error(err);
+        }
+
     }
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -66,6 +93,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
                 { headers: { 'token': cookies.token } }
             );
             setModify(false);
+            setUpdateUsers(state => !state);
         } catch (err) {
             console.error(err);
         }
@@ -79,13 +107,18 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify }: Use
                     <h2>User {userItem.username || 'New User'}</h2>
                     <img className={style.imgUserModify} src={formData.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} />
                     <br />
-
                     <form >
+                        <input type="file" onChange={onFileChange} />
+                        <br />
+                        <br />
                         <div className={style.btnSaveCancel}>
                             <button onClick={onUploadImg}>Upload new image</button>
+
                             <button onClick={onClearImage}>X</button>
                         </div>
                         <br />
+
+
                         <label htmlFor="">Username: </label>
                         <input type="text" name="username" value={formData.username} onChange={onChange} />
                         <br />
