@@ -10,6 +10,8 @@ import { useAuth } from './context/authContext/authContext';
 import { useUser } from './context/userContext/userContext';
 import NotFound from './pages/NotFound/NotFound';
 import AdminDashBoardUsers from './pages/dashboards/AdminDashboardUsers';
+import DispatcherDashBoardTrucks from './pages/dashboards/DispatcherDashboardTrucks';
+import DispatcherDashBoardOrders from './pages/dashboards/DispatcherDashboardOrders';
 
 function App() {
 
@@ -60,6 +62,8 @@ function App() {
         </Route>
         <Route element={<ProtectedRoutes role='dispatcher' />}>
           <Route path='/dispatcherdashboard' element={<DispatcherDashBoard />} />
+          <Route path='/dispatcherdashboard/trucks' element={<DispatcherDashBoardTrucks />} />
+          <Route path='/dispatcherdashboard/orders' element={<DispatcherDashBoardOrders />} />
         </Route>
         <Route element={<ProtectedRoutes role='driver' />}>
           <Route path='/driverdashboard' element={<DriverDashBoard />} />
