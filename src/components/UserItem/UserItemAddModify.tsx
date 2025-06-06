@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from './userItem.module.css'
-import type { User } from "../../context/userContext/userContext";
+import type { User } from "../../interfaces/UserInterface";
 import { useError } from "../../context/globalErrorContext/globalErrorContext";
 import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
 import ReactDOM from "react-dom";
 import axios from "axios";
-
+import type { Truck } from "../../interfaces/TruckInterface";
 
 interface UserItemProps {
     userItem: User;
@@ -18,12 +18,11 @@ interface UserForm {
     username: string;
     role: string;
     isActive: boolean;
-    truck?: string;
+    truck?: Truck;
     password?: string;
     password2?: string;
     imgUrl?: string
 }
-
 
 const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUpdateUsers }: UserItemProps) => {
 
@@ -32,6 +31,28 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
 
     const [formData, setFormData] = useState<UserForm>({ ...userItem });
     const [file, setFile] = useState<File | null>(null);
+    const [trucks, setTrucks] = useState<Truck[]>([]);
+
+    function trucksOptions(){
+    return(
+        trucks.map(it => <option value={it._id} key={it._id}>{it.licensePlate}</option>)
+    )
+}
+
+
+    useEffect(() => { //getting all the trucks to populate select
+        async function getTrucks() {
+            try {
+                const res = await api('/trucks', {
+                    headers: { 'token': cookies.token }
+                });
+                setTrucks(res.data);                
+            } catch (err) {
+                console.error(err);
+            }            
+        }
+        getTrucks();
+    }, [])
 
     function onFileChange(ev: React.ChangeEvent<HTMLInputElement>) {
         setFile(ev.target.files?.[0] || null);
@@ -68,7 +89,8 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
     }
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        const value = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
+        let value:any = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
+        value =  ev.target.name === "truck" && ev.target.value==''?null:ev.target.value;
         setFormData({ ...formData, [ev.target.name]: value })
     }
 
@@ -87,6 +109,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
             delete formData.password;
             delete formData.password2;
         }
+        
         try {
             await api.put(`/users/${userItem._id}`,
                 { ...formData },
@@ -130,8 +153,9 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
                         </select>
                         <br />
                         <label htmlFor="">Truck:</label>
-                        <select name="truck" onChange={onChange} value={formData.truck}>
+                        <select name="truck" onChange={onChange} value={formData.truck?._id}>
                             <option value=''>------</option>
+                            {trucksOptions()}
                         </select>
                         <br />
                         <label htmlFor="">User active: </label>

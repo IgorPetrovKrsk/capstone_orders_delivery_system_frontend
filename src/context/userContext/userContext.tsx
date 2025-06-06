@@ -1,15 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-
-export type UserRole = "admin" | "dispatcher" | "driver";
-
-export interface User {
-  _id:string;
-  username: string;
-  role: UserRole;
-  truck?: string;
-  isActive: boolean;
-  imgUrl?: string;
-}
+import type { User } from "../../interfaces/UserInterface";
 
 interface UserContextType {
   user: User | null;
@@ -30,9 +20,9 @@ export default function UserProvider({ children }: UserProviderProps) {
 
 
 export function useUser() {
-    const context = useContext(UserContext);
-    if (!context) {
-        throw new Error("useUser must be used within a UserProvider");
-    }
-    return context;
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
 }

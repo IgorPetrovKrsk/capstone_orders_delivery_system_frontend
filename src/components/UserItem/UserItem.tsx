@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
-import type { User } from "../../context/userContext/userContext";
+import type { User } from "../../interfaces/UserInterface";
 import styles from './userItem.module.css'
 import UserItemAddModify from "./UserItemAddModify";
 
@@ -9,8 +9,6 @@ interface UserItemProps {
     userItem: User;
     setUpdateUsers: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-
 
 export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
     
@@ -52,7 +50,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
                 <td><img className={styles.imgUser} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} /></td>
                 <td>{userItem.username}</td>
                 <td>{userItem.role}</td>
-                <td>{userItem.truck}</td>
+                <td>{userItem.truck?.licensePlate}</td>
                 <td><input type="checkbox" checked={userItem.isActive} onChange={onActiveChange} /></td>
                 <td><button onClick={onEdit}>Edit</button></td>
                 <td><button onClick={onDelete}>Delete</button></td>                

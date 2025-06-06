@@ -3,7 +3,7 @@ import AdminNav from "../../components/nav/AdminNav"
 import styles from './dashboard.module.css'
 import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
-import type { User } from "../../context/userContext/userContext";
+import type { User } from "../../interfaces/UserInterface";
 import UserItem from "../../components/UserItem/UserItem";
 
 export default function AdminDashBoardUsers() {
