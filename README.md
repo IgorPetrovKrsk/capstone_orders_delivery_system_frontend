@@ -12,12 +12,15 @@ Features:
 • React for a dynamic and interactive frontend UI, Axios for making API requests and handling network errors.
 
 Login page:
+
 ![image](https://github.com/user-attachments/assets/b949d2e1-fbf6-4835-a7d6-a411e6d70d20)
 
 Users page:
+
 ![image](https://github.com/user-attachments/assets/ddcfac16-781f-4436-aa4e-a5810220195b)
 
 User edit page:
+
 ![image](https://github.com/user-attachments/assets/b869735e-3f52-4460-b738-bb788919abae)
 
 
