@@ -35,3 +35,8 @@
     display: flex;
     justify-content: space-around;
 }
+
+.tdUsernameRole{
+    font-size: x-large;
+    font-weight: bold;
+}

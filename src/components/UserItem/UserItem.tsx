@@ -48,8 +48,8 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
         <>
             <tr>
                 <td><img className={styles.imgUser} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} /></td>
-                <td>{userItem.username}</td>
-                <td>{userItem.role}</td>
+                <td className={styles.tdUsernameRole}>{userItem.username}</td>
+                <td className={styles.tdUsernameRole}>{userItem.role}</td>
                 <td>{userItem.truck?.licensePlate}</td>
                 <td><input type="checkbox" checked={userItem.isActive} onChange={onActiveChange} /></td>
                 <td><button onClick={onEdit}>Edit</button></td>
