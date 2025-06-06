@@ -3,6 +3,7 @@ import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
 import type { Coordinates, Order } from "../../interfaces/OrderInterface";
 import type { Truck } from "../../interfaces/TruckInterface";
+import { useError } from "../../context/globalErrorContext/globalErrorContext";
 
 interface OrderItemProps {
     orderItem: Order;
@@ -10,7 +11,7 @@ interface OrderItemProps {
 }
 
 interface OrderForm {
-    _id?: string | null;
+    _id: string | null;
     origin: string;
     originCoordinates: Coordinates;
     destination: string;
@@ -22,10 +23,17 @@ interface OrderForm {
 
 export default function OrderItem({ orderItem, setUpdateOrders }: OrderItemProps) {
 
+    const { showError } = useError();
     const { cookies } = useAuth();
     const [modify, setModify] = useState(false);
     const [formData, setFormData] = useState<OrderForm>({ ...orderItem })
     const [trucks, setTrucks] = useState<Truck[]>([]);
+
+    function trucksOptions() {
+        return (
+            trucks.map(it => <option value={it._id} key={it._id}>{it.licensePlate}</option>)
+        )
+    }
 
     async function getTrucks() {
         try {
@@ -51,6 +59,8 @@ export default function OrderItem({ orderItem, setUpdateOrders }: OrderItemProps
             }
         }
     }
+
+
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         switch (ev.target.name) {
@@ -81,9 +91,33 @@ export default function OrderItem({ orderItem, setUpdateOrders }: OrderItemProps
     function onCancel() {
         setModify(false);
     }
-    function onSave() {
-        setModify(false);
-        setUpdateOrders(state => !state);
+    async function onSave(ev: React.MouseEvent<HTMLButtonElement>) {
+
+        ev.preventDefault();
+        if (!formData.origin.trim() || !formData.destination.trim()) {
+            showError({ title: "Origin and Destination should be filled", errors: [] });
+            return;
+        }
+
+
+        try {
+            if (!formData._id) { //if no order id this means this is a new order so post request
+                formData._id = null
+                await api.post(`/orders`,
+                    { ...formData },
+                    { headers: { 'token': cookies.token } }
+                );
+            } else {
+                await api.put(`/orders/${orderItem._id}`,
+                    { ...formData },
+                    { headers: { 'token': cookies.token } }
+                );
+            }
+            setModify(false);
+            setUpdateOrders(state => !state);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -103,15 +137,26 @@ export default function OrderItem({ orderItem, setUpdateOrders }: OrderItemProps
                     <td>{(orderItem._id != '') ? <button onClick={onDelete}>Delete</button> : null}</td>
                 </tr>
                 : <tr>
-                    <td><input type='text' name='origin' value={formData?.origin} onChange={onChange}></input></td>
-                    <td><input type="number" name="originCoordinates.latitude" value={formData?.originCoordinates.latitude} onChange={onChange} /></td>
-                    <td><input type="number" name="originCoordinates.longitude" value={formData?.originCoordinates.longitude} onChange={onChange} /></td>
-                    <td><input type='text' name='destination' value={formData?.destination} onChange={onChange}></input></td>
-                    <td><input type="number" name="destinationCoordinates.latitude" value={formData?.destinationCoordinates.latitude} onChange={onChange} /></td>
-                    <td><input type="number" name="destinationCoordinates.longitude" value={formData?.destinationCoordinates.longitude} onChange={onChange} /></td>
-                    <td>{orderItem._id != '' ? orderItem.status : null}</td>
-                    <td>{orderItem.weight || null}</td>
-                    <td>{orderItem.truck?.licensePlate}</td>
+                    <td><input type='text' name='origin' value={formData.origin} onChange={onChange}></input></td>
+                    <td><input type="number" name="originCoordinates.latitude" value={formData.originCoordinates.latitude} onChange={onChange} /></td>
+                    <td><input type="number" name="originCoordinates.longitude" value={formData.originCoordinates.longitude} onChange={onChange} /></td>
+                    <td><input type='text' name='destination' value={formData.destination} onChange={onChange}></input></td>
+                    <td><input type="number" name="destinationCoordinates.latitude" value={formData.destinationCoordinates.latitude} onChange={onChange} /></td>
+                    <td><input type="number" name="destinationCoordinates.longitude" value={formData.destinationCoordinates.longitude} onChange={onChange} /></td>
+                    <td>
+                        <select name="status" onChange={onChange} value={formData.status}>
+                            <option value="pending">Pending</option>
+                            <option value="assigned">Assigned</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="returned">Returned</option>
+                        </select>
+                    </td>
+                    <td><input type="number" name="weight" value={formData.weight} onChange={onChange} /></td>
+                    <td><select name="truck" onChange={onChange} value={formData.truck?._id}>
+                        <option value=''>------</option>
+                        {trucksOptions()}
+                    </select>
+                    </td>
                     <td><button onClick={onSave}>Save</button></td>
                     <td><button onClick={onCancel}>Cancel</button></td>
                 </tr>
