@@ -59,7 +59,7 @@ export default function AdminDashBoardUsers() {
                 <table className={styles.tableUsers}>
                     <thead >
                         <tr >
-                            <th >img</th>
+                            <th ></th>
                             <th>Username</th>
                             <th>Role</th>
                             <th>Truck</th>

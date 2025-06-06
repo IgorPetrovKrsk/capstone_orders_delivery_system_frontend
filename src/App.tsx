@@ -12,8 +12,10 @@ import NotFound from './pages/NotFound/NotFound';
 import AdminDashBoardUsers from './pages/dashboards/AdminDashboardUsers';
 import DispatcherDashBoardTrucks from './pages/dashboards/DispatcherDashboardTrucks';
 import DispatcherDashBoardOrders from './pages/dashboards/DispatcherDashboardOrders';
+import Modal from 'react-modal'
 
 function App() {
+  Modal.setAppElement('#root');
 
   setupAxiosInterceptors();
 
