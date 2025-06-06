@@ -49,7 +49,7 @@ export default function DispatcherDashBoardOrders() {
             <tbody>
                 {orders?.map((it) => <OrderItem orderItem={it} setUpdateOrders={setUpdateOrders} key={it._id} />)}
                 {/* adding another element for the new order */}
-                <OrderItem orderItem={{_id:'',weight:0,status:'pending',origin:'',destination:'',originCoordinates:{latitude:0,longitude:0},destinationCoordinates:{latitude:0,longitude:0}}} setUpdateTrucks={setUpdateOrders} key={'new truck'}/> 
+                <OrderItem orderItem={{_id:'',weight:0,status:'pending',origin:'',destination:'',originCoordinates:{latitude:0,longitude:0},destinationCoordinates:{latitude:0,longitude:0}}} setUpdateOrders={setUpdateOrders} key={'new order'}/> 
             </tbody>
         )
     }
