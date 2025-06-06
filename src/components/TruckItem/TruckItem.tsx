@@ -4,7 +4,6 @@ import { useAuth } from "../../context/authContext/authContext";
 import styles from './truckItem.module.css'
 import type { Truck } from "../../interfaces/TruckInterface";
 import comradeCodichTrucksNotFound from '../../assets/Comrade Codich Trucks not found.png';
-import Modal from 'react-modal';
 import TruckItemAddModify from "./TrucksItemAddModify";
 
 

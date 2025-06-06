@@ -1,5 +1,6 @@
 import type { Truck } from "./TruckInterface";
-import type { UserRole } from "./UserRoles";
+
+export type UserRole = "admin" | "dispatcher" | "driver";
 
 export interface User {
   _id:string;

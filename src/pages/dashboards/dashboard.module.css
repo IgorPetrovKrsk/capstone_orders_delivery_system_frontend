@@ -2,7 +2,7 @@
     margin-left: 5%;
     margin-right: 5%;
 }
-.tableUsers,.tableTrucks{
+.tableUsers,.tableTrucks,.tableOrders{
     width: 100%;
     border-collapse: collapse;
 }
