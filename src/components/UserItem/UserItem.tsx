@@ -47,13 +47,13 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
     return (
         <>
             <tr>
-                <td><img className={styles.imgUser} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} /></td>
+                <td>{(userItem._id!='')?<img className={styles.imgUser} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} />:null}</td>
                 <td className={styles.tdUsernameRole}>{userItem.username}</td>
-                <td className={styles.tdUsernameRole}>{userItem.role}</td>
+                <td className={styles.tdUsernameRole}>{(userItem._id!='')?userItem.role:null}</td>
                 <td>{userItem.truck?.licensePlate}</td>
-                <td><input type="checkbox" checked={userItem.isActive} onChange={onActiveChange} /></td>
-                <td><button onClick={onEdit}>Edit</button></td>
-                <td><button onClick={onDelete}>Delete</button></td>                
+                <td>{(userItem._id!='')?<input type="checkbox" checked={userItem.isActive} onChange={onActiveChange} />:null}</td>
+                <td><button onClick={onEdit}>{(userItem._id=='')?'Add':'Edit'}</button></td>
+                <td>{(userItem._id!='')?<button onClick={onDelete}>Delete</button>:null}</td>                
             </tr>
             {modify && <UserItemAddModify userItem = {userItem} setModify={setModify} setUpdateUsers={setUpdateUsers}/>}
         </>

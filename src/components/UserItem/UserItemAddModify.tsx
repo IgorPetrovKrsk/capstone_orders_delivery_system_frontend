@@ -5,7 +5,6 @@ import { useError } from "../../context/globalErrorContext/globalErrorContext";
 import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import type { Truck } from "../../interfaces/TruckInterface";
 
 interface UserItemProps {
@@ -15,8 +14,9 @@ interface UserItemProps {
 }
 
 interface UserForm {
+    _id: string;
     username: string;
-    role: string;
+    role?: string;
     isActive: boolean;
     truck?: Truck;
     password?: string;
@@ -33,11 +33,11 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
     const [file, setFile] = useState<File | null>(null);
     const [trucks, setTrucks] = useState<Truck[]>([]);
 
-    function trucksOptions(){
-    return(
-        trucks.map(it => <option value={it._id} key={it._id}>{it.licensePlate}</option>)
-    )
-}
+    function trucksOptions() {
+        return (
+            trucks.map(it => <option value={it._id} key={it._id}>{it.licensePlate}</option>)
+        )
+    }
 
 
     useEffect(() => { //getting all the trucks to populate select
@@ -46,10 +46,10 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
                 const res = await api('/trucks', {
                     headers: { 'token': cookies.token }
                 });
-                setTrucks(res.data);                
+                setTrucks(res.data);
             } catch (err) {
                 console.error(err);
-            }            
+            }
         }
         getTrucks();
     }, [])
@@ -74,7 +74,7 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
             const res = await api.get(`/s3-url`, {
                 headers: { 'token': cookies.token }
             });
-            await axios.put(res.data.url,
+            await api.put(res.data.url,
                 file,
                 {
                     headers: {
@@ -89,8 +89,8 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
     }
 
     function onChange(ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-        let value:any = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
-        value =  ev.target.name === "truck" && ev.target.value==''?null:ev.target.value;
+        let value: any = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
+        value = ev.target.name === "truck" && ev.target.value == '' ? null : ev.target.value;
         setFormData({ ...formData, [ev.target.name]: value })
     }
 
@@ -105,16 +105,27 @@ const UserItemAddModify: React.FC<UserItemProps> = ({ userItem, setModify, setUp
             showError({ title: "Passwords should match", errors: [] });
             return;
         }
+        if (formData._id == '' && !formData.password?.trim()) {
+            showError({ title: "New user should have a password", errors: [] });
+            return;
+        }
         if (formData.password?.trim() == '' && formData.password2?.trim() == '') { //if passwords are empty we will not change passwors so sending put request without passwords
             delete formData.password;
             delete formData.password2;
         }
-        
+
         try {
-            await api.put(`/users/${userItem._id}`,
-                { ...formData },
-                { headers: { 'token': cookies.token } }
-            );
+            if (formData._id == '') { //if no user id this means this is a new user so post request
+                await api.post(`/users`,
+                    { ...formData },
+                    { headers: { 'token': cookies.token } }
+                );
+            } else {
+                await api.put(`/users/${userItem._id}`,
+                    { ...formData },
+                    { headers: { 'token': cookies.token } }
+                );
+            }
             setModify(false);
             setUpdateUsers(state => !state);
         } catch (err) {

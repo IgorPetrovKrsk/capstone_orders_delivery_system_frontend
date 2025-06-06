@@ -45,6 +45,8 @@ export default function AdminDashBoardUsers() {
         return (
             <tbody>
                 {users?.map((it) => <UserItem userItem={it} setUpdateUsers={setUpdateUsers} key={it._id} />)}
+                {/* adding another element for the new user */}
+                <UserItem userItem={{_id:'',username:'',isActive:true,role:'driver',imgUrl:''}} setUpdateUsers={setUpdateUsers} key={'new user'}/> 
             </tbody>
         )
     }
