@@ -1,7 +1,13 @@
+import DriverNav from "../../components/Nav/DriverNav";
+import styles from './dashboard.module.css'
+import DriverDashBoardOrders from "./DriverDashboardOrders";
+
+
+
 export default function DriverDashBoard() {
     return (
         <>
-            <h1>Driver dashboard</h1>
-        </>
-    )
+            <DriverNav />
+            <DriverDashBoardOrders />
+        </>)
 }

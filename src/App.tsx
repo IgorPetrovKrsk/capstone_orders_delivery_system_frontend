@@ -47,7 +47,7 @@ function App() {
         nav('/dispatcherdashboard')
         break;
       case "driver":
-        nav('/admindashboard')
+        nav('/driverdashboard/orders')
         break;
       default:
         //nav('/');
@@ -68,7 +68,8 @@ function App() {
           <Route path='/dispatcherdashboard/orders' element={<DispatcherDashBoardOrders />} />
         </Route>
         <Route element={<ProtectedRoutes role='driver' />}>
-          <Route path='/driverdashboard' element={<DriverDashBoard />} />
+        <Route path='/driverdashboard/' element={<DriverDashBoard />} />
+          <Route path='/driverdashboard/orders' element={<DriverDashBoard />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes >

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import DispatcherNav from "../../components/nav/DispatcherNav";
+import DispatcherNav from "../../components/Nav/DispatcherNav";
 import { useAuth } from "../../context/authContext/authContext";
 import styles from './dashboard.module.css'
 import type { Truck } from "../../interfaces/TruckInterface";

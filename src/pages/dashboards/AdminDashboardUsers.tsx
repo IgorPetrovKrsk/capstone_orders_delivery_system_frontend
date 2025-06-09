@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import AdminNav from "../../components/nav/AdminNav"
+import AdminNav from "../../components/Nav/AdminNav"
 import styles from './dashboard.module.css'
 import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
