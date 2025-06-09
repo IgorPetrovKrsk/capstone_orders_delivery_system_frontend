@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext/authContext";
-import styles from './dashboard.module.css'
 import api from "../../api";
 import type { Order } from "../../interfaces/OrderInterface";
-import OrderItem from "../../components/OrderItem/OrderItem";
 import OrderItemDriver from "../../components/OrderItemDriver/OrderItemDriver";
 
 
@@ -33,18 +31,18 @@ export default function DriverDashBoardOrders() {
     }
 
     const loaded = () => {
-        if (orders?.length==0){
+        if (orders?.length == 0) {
             <h2>No current orders.</h2>
-        }else {
-        return (
-            orders?.map(it=> <OrderItemDriver orderItem={it} setUpdateOrders={setUpdateOrders} key={it._id}/>)
-        )
+        } else {
+            return (
+                orders?.map(it => <OrderItemDriver orderItem={it} setUpdateOrders={setUpdateOrders} key={it._id} />)
+            )
         }
     }
 
     return (
         <>
-             {(orders) ? loaded() : loading()}
+            {(orders) ? loaded() : loading()}
         </>
     )
 }

@@ -1,17 +1,17 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css'
-import ProtectedRoutes from './components/protectedRoutes/ProtectedRoutes';
+import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import Login from './pages/Login';
 import api, { setupAxiosInterceptors } from './api';
-import DispatcherDashBoard from './pages/dashboards/DispatcherDashboard';
-import DriverDashBoard from './pages/dashboards/DriverDashboard';
+import DispatcherDashBoard from './pages/Dashboards/DispatcherDashboard';
+import DriverDashBoard from './pages/Dashboards/DriverDashboard';
 import { useEffect } from 'react';
 import { useAuth } from './context/authContext/authContext';
 import { useUser } from './context/userContext/userContext';
 import NotFound from './pages/NotFound/NotFound';
-import AdminDashBoardUsers from './pages/dashboards/AdminDashboardUsers';
-import DispatcherDashBoardTrucks from './pages/dashboards/DispatcherDashboardTrucks';
-import DispatcherDashBoardOrders from './pages/dashboards/DispatcherDashboardOrders';
+import AdminDashBoardUsers from './pages/Dashboards/AdminDashboardUsers';
+import DispatcherDashBoardTrucks from './pages/Dashboards/DispatcherDashboardTrucks';
+import DispatcherDashBoardOrders from './pages/Dashboards/DispatcherDashboardOrders';
 import Modal from 'react-modal'
 
 function App() {

@@ -55,7 +55,6 @@ export default function AdminDashBoardUsers() {
         <>
             <AdminNav />
             <div className={styles.divMain}>
-                <h2>Users</h2>
                 <table className={styles.tableUsers}>
                     <thead >
                         <tr >

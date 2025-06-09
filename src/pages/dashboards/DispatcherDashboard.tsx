@@ -6,7 +6,10 @@ export default function DispatcherDashBoard() {
         <>
             <DispatcherNav />
              <div className={styles.divMain}>
-                <h1>Dispatcher Dashboard</h1>
+                <div className={`${styles.divTrucks} ${styles.resizable}`}>Trucks</div>
+                <div className={`${styles.divTrucks} ${styles.resizable}`}>Orders</div>
+                <div className={`${styles.divTrucks} ${styles.resizable}`}>Map</div>     
+
             </div>
         </>
     )

@@ -1,6 +1,11 @@
 .divMain{
+    display: flex;
     margin-left: 5%;
-    margin-right: 5%;
+    margin-right: 5%;    
+    margin-top: 1%;
+}
+.divTrucks{
+    
 }
 .tableUsers,.tableTrucks,.tableOrders{
     width: 100%;
@@ -11,5 +16,14 @@ th, td {
     padding: 8px;
     text-align: center;    
   }
+
+  .resizable {
+    resize: both;
+    overflow: auto;
+    min-width: 10%;
+    width: 33%;
+    border: 1px solid whitesmoke;
+    margin: 5px;
+}
 
 

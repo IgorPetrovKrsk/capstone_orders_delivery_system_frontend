@@ -60,7 +60,6 @@ export default function DispatcherDashBoardOrders() {
         <>
             <DispatcherNav />
             <div className={styles.divMain}>
-                <h2>Orders</h2>
                 <table className={styles.tableOrders}>
                     <thead >
                         <tr >

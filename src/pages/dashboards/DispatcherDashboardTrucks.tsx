@@ -54,7 +54,6 @@ export default function DispatcherDashBoardTrucks() {
         <>
             <DispatcherNav />
             <div className={styles.divMain}>
-                <h2>Trucks</h2>
                 <table className={styles.tableTrucks}>
                     <thead >
                         <tr >
