@@ -6,6 +6,7 @@ import type { Order } from "../../interfaces/OrderInterface";
 import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
 import DispatcherTruckItem from "../../components/DispatcherTrucksOrders/DispatcherTruckItem";
+import DispatcherOrderItem from "../../components/DispatcherTrucksOrders/DispatcherOrderItem";
 
 export default function DispatcherDashBoard() {
 
@@ -42,17 +43,26 @@ export default function DispatcherDashBoard() {
         })
     }
 
+    function displayOrders(){
+        return orders.filter(it => !it.truck).map(it => <DispatcherOrderItem
+        orderItem = {it}
+        setUpdateTrucksOrders={setUpdateTrucksOrders}
+        key={it._id}
+        />)
+    }
+
     return (
         <>
             <DispatcherNav />
             <div className={styles.divMain}>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
                     Trucks
-                    {!trucks?.length ? <h2>Loading...</h2> : displayTrucks()}
+                    {!trucks.length ? <h2>Loading...</h2> : displayTrucks()}
 
                 </div>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
                     Orders
+                    {!orders.length? <h2>Loading...</h2> : displayOrders()}
                 </div>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
                     Map

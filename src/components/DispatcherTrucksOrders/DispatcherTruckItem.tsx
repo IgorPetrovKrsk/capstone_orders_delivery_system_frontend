@@ -13,8 +13,7 @@ interface TruckItemProps {
 
 
 export default function DispatcherTruckItem({ truckItem, truckOrders, setUpdateTrucksOrders }: TruckItemProps) {
-    const [expand, setExpand] = useState(false);
-    //console.log(truckOrders);
+    const [expand, setExpand] = useState(false);   
     
     function displayTruckOrders() {
         return truckOrders.map(it => <div className={styles.divOrder}>
@@ -27,7 +26,7 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, setUpdateT
 
     return (
         <>
-            <div className={currentCapacity<0?styles.divOverload:null}>
+            <div className={currentCapacity<0?styles.divOverload:''}>
                 <button onClick={() => { setExpand(s => !s) }}>{!expand ? '⇓' : '⇑'}</button>
                 {truckItem.licensePlate} &nbsp;
                 TC: {truckItem.capacity} &nbsp;
