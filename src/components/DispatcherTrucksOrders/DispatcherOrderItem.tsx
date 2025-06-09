@@ -6,18 +6,18 @@ import type { Order } from "../../interfaces/OrderInterface";
 
 interface OrdersItemProps {
     orderItem: Order;
-    setUpdateTrucksOrders: React.Dispatch<React.SetStateAction<boolean>>
+    onDragStart:(event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 
 
-export default function DispatcherOrderItem({ orderItem, setUpdateTrucksOrders }: OrdersItemProps) {
+export default function DispatcherOrderItem({ orderItem, onDragStart }: OrdersItemProps) {
     
     const [expand, setExpand] = useState(false);
     
     return (
         <>
-            <div className={styles.divOrder}>
+            <div className={styles.divOrder} draggable='true' onDragStart={onDragStart}>
                 <button onClick={() => { setExpand(s => !s) }}>{!expand ? '⇓' : '⇑'}</button>
                 Dest: {orderItem.destination} &nbsp;
                 W: {orderItem.weight}

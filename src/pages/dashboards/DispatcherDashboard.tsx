@@ -8,12 +8,14 @@ import api from "../../api";
 import DispatcherTruckItem from "../../components/DispatcherTrucksOrders/DispatcherTruckItem";
 import DispatcherOrderItem from "../../components/DispatcherTrucksOrders/DispatcherOrderItem";
 
+
 export default function DispatcherDashBoard() {
 
     const { cookies } = useAuth();
     const [trucks, setTrucks] = useState<Truck[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
+    const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
 
     useEffect(() => {
         async function getTrucksOrders() {
@@ -37,19 +39,43 @@ export default function DispatcherDashBoard() {
             return <DispatcherTruckItem
                 truckItem={truck}
                 truckOrders={orders?.filter(order => order.truck?._id == truck._id)}
-                setUpdateTrucksOrders={setUpdateTrucksOrders}
+                onDrop={(ev) => onDrop(ev, truck)}
                 key={truck._id}
             />
         })
     }
 
-    function displayOrders(){
-        return orders.filter(it => !it.truck).map(it => <DispatcherOrderItem
-        orderItem = {it}
-        setUpdateTrucksOrders={setUpdateTrucksOrders}
-        key={it._id}
-        />)
+    function onDragStart(it: Order) {
+        setDraggingOrder(it);
     }
+    async function onDrop(ev: React.DragEvent<HTMLDivElement>, truck: Truck) {
+        ev.preventDefault();
+        if (draggingOrder) {
+            try {
+                await api.put(`/orders/${draggingOrder._id}`,
+                    { truck: truck._id },
+                    {
+                        headers: { token: cookies.token }
+                    });
+                setDraggingOrder(null);
+                setUpdateTrucksOrders(c => !c);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+    }
+
+    function displayOrders() {
+        return orders.filter(it => !it.truck).map(it =>
+            <DispatcherOrderItem
+                orderItem={it}
+                onDragStart={() => onDragStart(it)}
+                key={it._id}
+            />)
+    }
+
+
 
     return (
         <>
@@ -62,7 +88,7 @@ export default function DispatcherDashBoard() {
                 </div>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
                     Orders
-                    {!orders.length? <h2>Loading...</h2> : displayOrders()}
+                    {!orders.length ? <h2>Loading...</h2> : displayOrders()}
                 </div>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
                     Map
