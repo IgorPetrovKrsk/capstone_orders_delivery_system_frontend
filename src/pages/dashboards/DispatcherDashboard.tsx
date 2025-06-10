@@ -17,6 +17,7 @@ export default function DispatcherDashBoard() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
     const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
+    const [ordersToShowRoute, setOrdersToShowRoute] = useState<Order[]>([]);
 
     useEffect(() => {
         async function getTrucksOrders() {
@@ -42,6 +43,8 @@ export default function DispatcherDashBoard() {
                 truckOrders={orders?.filter(order => order.truck?._id == truck._id)}
                 onDropToTrucks={(ev) => onDropToTrucks(ev, truck)}
                 onDragStart={(ev, order) => onDragStart(ev, order)}
+                ordersToShowRoute={ordersToShowRoute}
+                setOrdersToShowRoute={setOrdersToShowRoute}
                 key={truck._id}
             />
         })
@@ -52,6 +55,8 @@ export default function DispatcherDashBoard() {
             <DispatcherOrderItem
                 orderItem={it}
                 onDragStart={(ev) => onDragStart(ev, it)}
+                ordersToShowRoute={ordersToShowRoute}
+                setOrdersToShowRoute={setOrdersToShowRoute}
                 key={it._id}
             />)
     }
