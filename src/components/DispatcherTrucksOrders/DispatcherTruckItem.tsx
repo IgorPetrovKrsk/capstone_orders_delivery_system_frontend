@@ -7,18 +7,20 @@ import type { Order } from "../../interfaces/OrderInterface";
 interface TruckItemProps {
     truckItem: Truck;
     truckOrders: Order[];
-    onDrop:(event: React.DragEvent<HTMLDivElement> , truck: Truck) => void;
+    onDragStart:(event: React.DragEvent<HTMLDivElement>, order:Order) => void;
+    onDropToTrucks:(event: React.DragEvent<HTMLDivElement> , truck: Truck) => void;
+
 }
 
 
 
-export default function DispatcherTruckItem({ truckItem, truckOrders,onDrop }: TruckItemProps) {
+export default function DispatcherTruckItem({ truckItem, truckOrders,onDragStart,onDropToTrucks }: TruckItemProps) {
     const [expand, setExpand] = useState(false);   
     
     function displayTruckOrders() {
-        return truckOrders.map(it => <div className={styles.divOrder}>
-            Dest: {it.destination} &nbsp;
-            W: {it.weight}
+        return truckOrders.map(order => <div className={styles.divOrder} draggable = "true" onDragStart={(ev) =>onDragStart(ev,order)}>
+            Dest: {order.destination} &nbsp;
+            W: {order.weight}
         </div>)
     }
 
@@ -30,7 +32,7 @@ export default function DispatcherTruckItem({ truckItem, truckOrders,onDrop }: T
 
     return (
         <>
-            <div className={currentCapacity<0?styles.divOverload:''}  onDragOver={onDragOver} onDrop={(ev)=> onDrop(ev,truckItem)} >
+            <div className={currentCapacity<0?styles.divOverload:''}  onDragOver={onDragOver} onDrop={(ev)=> onDropToTrucks(ev,truckItem)} >
                 <button onClick={() => { setExpand(s => !s) }}>{!expand ? '⇓' : '⇑'}</button>
                 {truckItem.licensePlate} &nbsp;
                 TC: {truckItem.capacity} &nbsp;

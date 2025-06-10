@@ -39,16 +39,28 @@ export default function DispatcherDashBoard() {
             return <DispatcherTruckItem
                 truckItem={truck}
                 truckOrders={orders?.filter(order => order.truck?._id == truck._id)}
-                onDrop={(ev) => onDrop(ev, truck)}
+                onDropToTrucks={(ev) => onDropToTrucks(ev, truck)}
+                onDragStart={(ev, order) => onDragStart(ev, order)}
                 key={truck._id}
             />
         })
     }
 
-    function onDragStart(it: Order) {
+    function displayOrders() {
+        return orders.filter(it => !it.truck).map(it =>
+            <DispatcherOrderItem
+                orderItem={it}
+                onDragStart={(ev) => onDragStart(ev, it)}
+                key={it._id}
+            />)
+    }
+
+    function onDragStart(ev: React.DragEvent<HTMLDivElement>, it: Order) {
+        console.log(`drag start on order ${it._id}`);
         setDraggingOrder(it);
     }
-    async function onDrop(ev: React.DragEvent<HTMLDivElement>, truck: Truck) {
+
+    async function onDropToTrucks(ev: React.DragEvent<HTMLDivElement>, truck: Truck) {
         ev.preventDefault();
         if (draggingOrder) {
             try {
@@ -63,17 +75,29 @@ export default function DispatcherDashBoard() {
                 console.error(err);
             }
         }
-
     }
 
-    function displayOrders() {
-        return orders.filter(it => !it.truck).map(it =>
-            <DispatcherOrderItem
-                orderItem={it}
-                onDragStart={() => onDragStart(it)}
-                key={it._id}
-            />)
+    async function onDropToOrders(ev: React.DragEvent<HTMLDivElement>) {
+        ev.preventDefault();
+        if (draggingOrder) {
+            try {
+                await api.put(`/orders/${draggingOrder._id}`,
+                    { truck: null },
+                    {
+                        headers: { token: cookies.token }
+                    });
+                setDraggingOrder(null);
+                setUpdateTrucksOrders(c => !c);
+            } catch (err) {
+                console.error(err);
+            }
+        }
     }
+
+    function onDragOver(ev: React.DragEvent<HTMLDivElement>) {
+        ev.preventDefault();
+    }
+
 
 
 
@@ -82,19 +106,22 @@ export default function DispatcherDashBoard() {
             <DispatcherNav />
             <div className={styles.divMain}>
                 <div className={`${styles.divTrucks} ${styles.resizable}`}>
-                    Trucks
-                    {!trucks.length ? <h2>Loading...</h2> : displayTrucks()}
+                    <h4>Trucks</h4>                    {!trucks.length ? <h2>Loading...</h2> : displayTrucks()}
 
                 </div>
-                <div className={`${styles.divTrucks} ${styles.resizable}`}>
-                    Orders
+                <div className={`${styles.divOrders} ${styles.resizable}`} onDragOver={onDragOver} onDrop={onDropToOrders} >
+                    <h4>Orders</h4>
                     {!orders.length ? <h2>Loading...</h2> : displayOrders()}
                 </div>
-                <div className={`${styles.divTrucks} ${styles.resizable}`}>
-                    Map
-                </div>
-
             </div>
+            <div className={styles.divMain}>
+                <div className={`${styles.divMap} ${styles.resizable}`}>
+                    <h4>Map</h4>
+                </div>
+            </div>
+
+
+
         </>
     )
 }

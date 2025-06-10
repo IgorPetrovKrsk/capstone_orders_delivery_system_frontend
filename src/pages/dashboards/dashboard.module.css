@@ -1,23 +1,33 @@
-.divMain{
+.divMain {
     display: flex;
-    margin-left: 5%;
-    margin-right: 5%;    
-    margin-top: 1%;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;    
 }
-.divTrucks{
-    
+
+.divTrucks {}
+
+.divMap {
+    width: 95%;
+
 }
-.tableUsers,.tableTrucks,.tableOrders{
+
+
+.tableUsers,
+.tableTrucks,
+.tableOrders {
     width: 100%;
     border-collapse: collapse;
 }
-th, td {
-    border: 1px solid ;
-    padding: 8px;
-    text-align: center;    
-  }
 
-  .resizable {
+th,
+td {
+    border: 1px solid;
+    padding: 8px;
+    text-align: center;
+}
+
+.resizable {
     resize: both;
     overflow: auto;
     min-width: 10%;
@@ -25,5 +35,7 @@ th, td {
     border: 1px solid whitesmoke;
     margin: 5px;
 }
-
-
+h4{
+    text-align: center;
+    margin: 0px;
+}

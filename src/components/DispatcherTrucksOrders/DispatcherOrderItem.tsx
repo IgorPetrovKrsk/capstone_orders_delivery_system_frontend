@@ -6,7 +6,7 @@ import type { Order } from "../../interfaces/OrderInterface";
 
 interface OrdersItemProps {
     orderItem: Order;
-    onDragStart:(event: React.DragEvent<HTMLDivElement>) => void;
+    onDragStart:(event: React.DragEvent<HTMLDivElement>) => void;    
 }
 
 
@@ -14,7 +14,7 @@ interface OrdersItemProps {
 export default function DispatcherOrderItem({ orderItem, onDragStart }: OrdersItemProps) {
     
     const [expand, setExpand] = useState(false);
-    
+  
     return (
         <>
             <div className={styles.divOrder} draggable='true' onDragStart={onDragStart}>
