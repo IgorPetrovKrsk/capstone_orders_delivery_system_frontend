@@ -1,15 +1,24 @@
 .divMain {
-    display: flex;
     margin-left: 2%;
     margin-right: 2%;
-    margin-top: 1%;    
+    margin-top: 1%;
     width: 100vw;
+    height: 100vh;
 }
+
+.divTrucksOrders {
+    display: flex;
+}
+
 
 .divTrucks {}
 
-.divMap {
-   
+.divMap {    
+    width: 95% !important;
+    height: 60%;
+    min-height: 400px;
+    min-width: 400px;
+    position: relative;
 }
 
 
@@ -35,7 +44,8 @@ td {
     border: 1px solid whitesmoke;
     margin: 5px;
 }
-h4{
+
+h4 {
     text-align: center;
     margin: 0px;
 }

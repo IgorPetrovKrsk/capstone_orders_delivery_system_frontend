@@ -18,7 +18,7 @@ export default function DispatcherDashBoard() {
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
     const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
 
-    useEffect(() => {
+        useEffect(() => {
         async function getTrucksOrders() {
             try {
                 const [resTrucks, resOrders] = await Promise.all([
@@ -105,17 +105,20 @@ export default function DispatcherDashBoard() {
         <>
             <DispatcherNav />
             <div className={styles.divMain}>
-                <div className={`${styles.divTrucks} ${styles.resizable}`}>
-                    <h4>Trucks</h4> {!trucks.length ? <h2>Loading...</h2> : displayTrucks()}
+                <div className={styles.divTrucksOrders}>
+                    <div className={`${styles.divTrucks} ${styles.resizable}`}>
+                        <h4>Trucks</h4> {!trucks.length ? <h2>Loading...</h2> : displayTrucks()}
+                    </div>
+                    <div className={`${styles.divOrders} ${styles.resizable}`} onDragOver={onDragOver} onDrop={onDropToOrders} >
+                        <h4>Orders</h4>
+                        {!orders.length ? <h2>Loading...</h2> : displayOrders()}
+                    </div>
                 </div>
-                <div className={`${styles.divOrders} ${styles.resizable}`} onDragOver={onDragOver} onDrop={onDropToOrders} >
-                    <h4>Orders</h4>
-                    {!orders.length ? <h2>Loading...</h2> : displayOrders()}
+                <div className={`${styles.divMap} ${styles.resizable}`}>
+                    <GoogleMap />
                 </div>
             </div>
-            <div className={`${styles.divMap} ${styles.resizable}`}>
-                <GoogleMap />
-            </div>
+
         </>
     )
 }
