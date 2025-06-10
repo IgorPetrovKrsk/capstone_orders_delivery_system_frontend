@@ -18,7 +18,7 @@ export default function DispatcherDashBoard() {
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
     const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
 
-        useEffect(() => {
+    useEffect(() => {
         async function getTrucksOrders() {
             try {
                 const [resTrucks, resOrders] = await Promise.all([

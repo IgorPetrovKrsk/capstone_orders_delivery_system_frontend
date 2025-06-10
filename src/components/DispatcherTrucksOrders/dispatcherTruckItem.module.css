@@ -2,10 +2,23 @@
     background-color: red;
 }
 .divOrder{
+    
     margin-left: 5px;
     margin-right: 5px;
     border: 1px solid white;    
 }
+.divOrderMain{
+    display: flex;    
+    align-items: center;
+}
+
 .divOrderExpanded{
+    display: block;
     margin-left: 10px;
+}
+.imgEye{
+    height: 1rem;    
+}
+.btnEye{
+    margin-left: auto;
 }
