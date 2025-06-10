@@ -18,6 +18,45 @@ export default function DispatcherDashBoard() {
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
     const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
     const [ordersToShowRoute, setOrdersToShowRoute] = useState<Order[]>([]);
+    const [routesToShowOnMap, setRoutesToShowOnMap] = useState<{lat: number; lng: number }[][]>([]);
+
+    async function getOrderPath  (service : google.maps.DirectionsService, order:Order) {
+        return new Promise((resolve) => {
+            service.route(
+                {
+                    origin: new google.maps.LatLng(order.originCoordinates.latitude,order.originCoordinates.longitude),
+                    destination: new google.maps.LatLng(order.destinationCoordinates.latitude,order.destinationCoordinates.longitude),
+                    travelMode: window.google.maps.TravelMode.DRIVING,
+                },
+                (result, status) => {
+                    if (status === 'OK') {
+                        const routePath = result?.routes[0].overview_path.map((p) => ({
+                            lat: p.lat(),
+                            lng: p.lng(),
+                        }));
+                        resolve(routePath);
+                    } else {
+                        console.error('Route error:', status);
+                        resolve(null);
+                    }
+                }
+            );
+        });
+    };
+
+
+    useEffect(() => { //this use effect will fetch routes for selected orders using google DirectionsService
+
+        async function getRoutes() {
+            const service = new window.google.maps.DirectionsService();
+
+            const results = await Promise.all(
+                ordersToShowRoute.map((order) => getOrderPath(service, order))
+            );
+            setRoutesToShowOnMap(results as { lat: number; lng: number }[][]);
+        }
+        getRoutes();
+    }, [ordersToShowRoute])
 
     useEffect(() => {
         async function getTrucksOrders() {
@@ -120,7 +159,8 @@ export default function DispatcherDashBoard() {
                     </div>
                 </div>
                 <div className={`${styles.divMap} ${styles.resizable}`}>
-                    <GoogleMap />
+                    <GoogleMap routes={routesToShowOnMap}/>
+                    
                 </div>
             </div>
 
