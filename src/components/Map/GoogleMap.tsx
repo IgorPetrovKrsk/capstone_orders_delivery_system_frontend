@@ -6,7 +6,10 @@ import CustomPolyline from "./CustomPolyline";
 export default function GoogleMap({ routes }: { routes: { lat: number; lng: number }[][] }) {
   const cityCenter = JSON.parse(import.meta.env.VITE_GOOGLE_MAPS_CENTER);
   return (
-    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+    <APIProvider
+      // language='en' 
+      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} > 
+      
       <Map defaultCenter={cityCenter} defaultZoom={12} >
         {routes.map((path, index) => (
           <CustomPolyline
