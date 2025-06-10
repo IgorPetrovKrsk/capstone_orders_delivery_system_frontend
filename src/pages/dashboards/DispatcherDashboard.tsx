@@ -7,6 +7,7 @@ import { useAuth } from "../../context/authContext/authContext";
 import api from "../../api";
 import DispatcherTruckItem from "../../components/DispatcherTrucksOrders/DispatcherTruckItem";
 import DispatcherOrderItem from "../../components/DispatcherTrucksOrders/DispatcherOrderItem";
+import GoogleMap from "../../components/Map/GoogleMap";
 
 
 export default function DispatcherDashBoard() {
@@ -116,7 +117,7 @@ export default function DispatcherDashBoard() {
             </div>
             <div className={styles.divMain}>
                 <div className={`${styles.divMap} ${styles.resizable}`}>
-                    <h4>Map</h4>
+                    
                 </div>
             </div>
 

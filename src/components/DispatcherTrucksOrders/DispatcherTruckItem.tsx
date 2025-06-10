@@ -18,7 +18,7 @@ export default function DispatcherTruckItem({ truckItem, truckOrders,onDragStart
     const [expand, setExpand] = useState(false);   
     
     function displayTruckOrders() {
-        return truckOrders.map(order => <div className={styles.divOrder} draggable = "true" onDragStart={(ev) =>onDragStart(ev,order)}>
+        return truckOrders.map(order => <div className={styles.divOrder} draggable = "true" onDragStart={(ev) =>onDragStart(ev,order)} key={order._id}>
             Dest: {order.destination} &nbsp;
             W: {order.weight}
         </div>)
