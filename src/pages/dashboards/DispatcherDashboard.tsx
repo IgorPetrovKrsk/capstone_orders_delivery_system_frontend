@@ -9,11 +9,13 @@ import DispatcherTruckItem from "../../components/DispatcherTrucksOrders/Dispatc
 import DispatcherOrderItem from "../../components/DispatcherTrucksOrders/DispatcherOrderItem";
 import GoogleMap from "../../components/Map/GoogleMap";
 import { useError } from "../../context/globalErrorContext/globalErrorContext";
+import { useUser } from "../../context/userContext/userContext";
 
 
 export default function DispatcherDashBoard() {
 
     const { showError } = useError(); //for showing messages from web socket
+    const { user } = useUser(); //to send to the web socket server current user
 
     const { cookies } = useAuth();
     const [trucks, setTrucks] = useState<Truck[]>([]);
@@ -51,7 +53,9 @@ export default function DispatcherDashBoard() {
     useEffect(() => { //useEffect for web socket
         ws.current = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
         ws.current.onopen = () => {
-            console.log('WebSocket connected');
+            if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+                ws.current.send(JSON.stringify({ user: user })); //sending current to the web socket server
+            }
         };
         ws.current.onmessage = (event) => {
             showError({ title: "Message from WebSocket", errors: [{ msg: event.data }] });
@@ -129,7 +133,7 @@ export default function DispatcherDashBoard() {
         if (draggingOrder) {
             try {
                 await api.put(`/orders/${draggingOrder._id}`,
-                    { truck: truck._id },
+                    { truck: truck._id, status:'assigned' },
                     {
                         headers: { token: cookies.token }
                     });
@@ -146,7 +150,7 @@ export default function DispatcherDashBoard() {
         if (draggingOrder) {
             try {
                 await api.put(`/orders/${draggingOrder._id}`,
-                    { truck: null },
+                    { truck: null,status:'pending'},
                     {
                         headers: { token: cookies.token }
                     });

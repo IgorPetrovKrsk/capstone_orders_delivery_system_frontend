@@ -62,12 +62,11 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
                 TC: {truckItem.capacity} &nbsp;
                 CC: {currentCapacity}
                 {expand && displayTruckOrders()}
-                {expand && <div className={styles.divTruckMessage}>
-                    <form onSubmit={(ev) => {sendWebSocketMessageToDriver(ev, truckItem, message); setMessage('');}}>
-                        <input className={styles.inputMessage} type="text" id="message" placeholder="Message to the driver" onChange={onChangeMessage} value={message}/>
+                {expand &&
+                    <form onSubmit={(ev) => { sendWebSocketMessageToDriver(ev, truckItem, message); setMessage(''); }} className={styles.divTruckMessage}>
+                        <input className={styles.inputMessage} type="text" id="message" placeholder="Message to the driver" onChange={onChangeMessage} value={message} />
                         <button className={styles.btnEye} type="submit">⇒</button>
-                    </form>
-                </div>}
+                    </form>}
             </div>
 
         </>
