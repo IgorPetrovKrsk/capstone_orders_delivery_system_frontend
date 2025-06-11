@@ -37,7 +37,7 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
     }
 
     function displayTruckOrders() {
-        return truckOrders.map(order => <>
+        return truckOrders.map(order =>
             <div className={styles.divTruckOrder} draggable="true" onDragStart={(ev) => onDragStart(ev, order)} key={order._id}>
                 Dest: {order.destination} &nbsp;
                 W: {order.weight}
@@ -45,7 +45,7 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
                     <img className={styles.imgEye} src={ordersToShowRoute.find(it => it == order) ? closedEye : openEye} alt="" />
                 </button>
             </div>
-        </>)
+        )
     }
 
     function onDragOver(ev: React.DragEvent<HTMLDivElement>) {

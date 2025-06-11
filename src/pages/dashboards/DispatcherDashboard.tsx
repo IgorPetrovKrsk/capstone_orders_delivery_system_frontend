@@ -57,8 +57,9 @@ export default function DispatcherDashBoard() {
                 ws.current.send(JSON.stringify({ user: user })); //sending current to the web socket server
             }
         };
-        ws.current.onmessage = (event) => {
-            showError({ title: "Message from WebSocket", errors: [{ msg: event.data }] });
+        ws.current.onmessage = async (event) => {
+            const data = await JSON.parse(event.data.toString());
+            showError({ title: `Message from ${data.from ?? '!Unknown!'}`, errors: [{ msg: data.message }] });
         };
         ws.current.onclose = () => {
             console.log('WebSocket disconnected');
@@ -72,7 +73,6 @@ export default function DispatcherDashBoard() {
 
         async function getRoutes() {
             const service = new window.google.maps.DirectionsService();
-
             const results = await Promise.all(
                 ordersToShowRoute.map((order) => getOrderPath(service, order))
             );
@@ -133,7 +133,7 @@ export default function DispatcherDashBoard() {
         if (draggingOrder) {
             try {
                 await api.put(`/orders/${draggingOrder._id}`,
-                    { truck: truck._id, status:'assigned' },
+                    { truck: truck._id, status: 'assigned' },
                     {
                         headers: { token: cookies.token }
                     });
@@ -150,7 +150,7 @@ export default function DispatcherDashBoard() {
         if (draggingOrder) {
             try {
                 await api.put(`/orders/${draggingOrder._id}`,
-                    { truck: null,status:'pending'},
+                    { truck: null, status: 'pending' },
                     {
                         headers: { token: cookies.token }
                     });
@@ -170,7 +170,7 @@ export default function DispatcherDashBoard() {
     function sendWebSocketMessageToDriver(ev: React.FormEvent<HTMLFormElement>, truck: Truck, message: string) {
         ev.preventDefault();
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-            ws.current.send(JSON.stringify({ truck: truck, message: message }));
+            ws.current.send(JSON.stringify({ from: user, truck: truck, message: message }));
         }
     };
 

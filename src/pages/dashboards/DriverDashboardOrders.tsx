@@ -23,7 +23,8 @@ export default function DriverDashBoardOrders() {
             }
         };
         ws.current.onmessage = (event) => {
-            showError({ title: "Message from WebSocket", errors: [{ msg: event.data }] });
+            const data = JSON.parse(event.data.toString());
+            showError({ title: `Message from ${data.from??'!Unknown!'}`, errors: [{ msg: data.message }] });
         };
         ws.current.onclose = () => {
             console.log('WebSocket disconnected');
