@@ -12,12 +12,13 @@ interface TruckItemProps {
     onDragStart: (event: React.DragEvent<HTMLDivElement>, order: Order) => void;
     onDropToTrucks: (event: React.DragEvent<HTMLDivElement>, truck: Truck) => void;
     ordersToShowRoute: Order[];
-    setOrdersToShowRoute: React.Dispatch<React.SetStateAction<Order[]>>
+    setOrdersToShowRoute: React.Dispatch<React.SetStateAction<Order[]>>;
+    sendWebSocketMessageToDriver: (event: React.FormEvent<HTMLFormElement>, truck: Truck, message: string) => void;
 }
 
 
 
-export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStart, onDropToTrucks, ordersToShowRoute, setOrdersToShowRoute }: TruckItemProps) {
+export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStart, onDropToTrucks, ordersToShowRoute, setOrdersToShowRoute, sendWebSocketMessageToDriver }: TruckItemProps) {
     const [expand, setExpand] = useState(false);
     const [message, setMessage] = useState('')
 
@@ -62,8 +63,10 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
                 CC: {currentCapacity}
                 {expand && displayTruckOrders()}
                 {expand && <div className={styles.divTruckMessage}>
-                    <input className={styles.inputMessage} type="text" id="message" placeholder="Message to driver" onChange={onChangeMessage}/>
-                    <button className={styles.btnEye}>⇒</button>
+                    <form onSubmit={(ev) => {sendWebSocketMessageToDriver(ev, truckItem, message); setMessage('');}}>
+                        <input className={styles.inputMessage} type="text" id="message" placeholder="Message to the driver" onChange={onChangeMessage} value={message}/>
+                        <button className={styles.btnEye} type="submit">⇒</button>
+                    </form>
                 </div>}
             </div>
 

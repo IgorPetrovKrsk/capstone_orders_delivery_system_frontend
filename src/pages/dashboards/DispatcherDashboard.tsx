@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DispatcherNav from "../../components/Nav/DispatcherNav";
 import styles from './dashboard.module.css'
 import type { Truck } from "../../interfaces/TruckInterface";
@@ -8,9 +8,12 @@ import api from "../../api";
 import DispatcherTruckItem from "../../components/DispatcherTrucksOrders/DispatcherTruckItem";
 import DispatcherOrderItem from "../../components/DispatcherTrucksOrders/DispatcherOrderItem";
 import GoogleMap from "../../components/Map/GoogleMap";
+import { useError } from "../../context/globalErrorContext/globalErrorContext";
 
 
 export default function DispatcherDashBoard() {
+
+    const { showError } = useError(); //for showing messages from web socket
 
     const { cookies } = useAuth();
     const [trucks, setTrucks] = useState<Truck[]>([]);
@@ -18,14 +21,15 @@ export default function DispatcherDashBoard() {
     const [updateTrucksOrders, setUpdateTrucksOrders] = useState(false)
     const [draggingOrder, setDraggingOrder] = useState<Order | null>(null)
     const [ordersToShowRoute, setOrdersToShowRoute] = useState<Order[]>([]);
-    const [routesToShowOnMap, setRoutesToShowOnMap] = useState<{lat: number; lng: number }[][]>([]);
+    const [routesToShowOnMap, setRoutesToShowOnMap] = useState<{ lat: number; lng: number }[][]>([]);
+    const ws = useRef<WebSocket | null>(null);
 
-    async function getOrderPath  (service : google.maps.DirectionsService, order:Order) {
+    async function getOrderPath(service: google.maps.DirectionsService, order: Order) {
         return new Promise((resolve) => {
             service.route(
                 {
-                    origin: new google.maps.LatLng(order.originCoordinates.latitude,order.originCoordinates.longitude),
-                    destination: new google.maps.LatLng(order.destinationCoordinates.latitude,order.destinationCoordinates.longitude),
+                    origin: new google.maps.LatLng(order.originCoordinates.latitude, order.originCoordinates.longitude),
+                    destination: new google.maps.LatLng(order.destinationCoordinates.latitude, order.destinationCoordinates.longitude),
                     travelMode: window.google.maps.TravelMode.DRIVING,
                 },
                 (result, status) => {
@@ -44,6 +48,21 @@ export default function DispatcherDashBoard() {
         });
     };
 
+    useEffect(() => { //useEffect for web socket
+        ws.current = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
+        ws.current.onopen = () => {
+            console.log('WebSocket connected');
+        };
+        ws.current.onmessage = (event) => {
+            showError({ title: "Message from WebSocket", errors: [{ msg: event.data }] });
+        };
+        ws.current.onclose = () => {
+            console.log('WebSocket disconnected');
+        };
+        return () => {
+            ws.current?.close();
+        };
+    }, []);
 
     useEffect(() => { //this use effect will fetch routes for selected orders using google DirectionsService
 
@@ -84,6 +103,7 @@ export default function DispatcherDashBoard() {
                 onDragStart={(ev, order) => onDragStart(ev, order)}
                 ordersToShowRoute={ordersToShowRoute}
                 setOrdersToShowRoute={setOrdersToShowRoute}
+                sendWebSocketMessageToDriver={(ev, truck, message) => sendWebSocketMessageToDriver(ev, truck, message)}
                 key={truck._id}
             />
         })
@@ -138,9 +158,17 @@ export default function DispatcherDashBoard() {
         }
     }
 
+
     function onDragOver(ev: React.DragEvent<HTMLDivElement>) {
         ev.preventDefault();
     }
+
+    function sendWebSocketMessageToDriver(ev: React.FormEvent<HTMLFormElement>, truck: Truck, message: string) {
+        ev.preventDefault();
+        if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+            ws.current.send(JSON.stringify({ truck: truck, message: message }));
+        }
+    };
 
 
 
@@ -159,8 +187,8 @@ export default function DispatcherDashBoard() {
                     </div>
                 </div>
                 <div className={`${styles.divMap} ${styles.resizable}`}>
-                    <GoogleMap routes={routesToShowOnMap}/>
-                    
+                    <GoogleMap routes={routesToShowOnMap} />
+
                 </div>
             </div>
 

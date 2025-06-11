@@ -1,4 +1,3 @@
-import type { Truck } from "../../interfaces/TruckInterface";
 import styles from './dispatcherTruckItem.module.css'
 import { useState } from "react";
 import type { Order } from "../../interfaces/OrderInterface";
