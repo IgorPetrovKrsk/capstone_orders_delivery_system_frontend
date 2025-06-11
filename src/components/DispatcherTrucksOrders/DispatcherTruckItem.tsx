@@ -19,8 +19,13 @@ interface TruckItemProps {
 
 export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStart, onDropToTrucks, ordersToShowRoute, setOrdersToShowRoute }: TruckItemProps) {
     const [expand, setExpand] = useState(false);
+    const [message, setMessage] = useState('')
 
-     function toggleOrdersToShow(newOrder:Order) {
+    function onChangeMessage(ev: React.ChangeEvent<HTMLInputElement>) {
+        setMessage(ev.target.value);
+    }
+
+    function toggleOrdersToShow(newOrder: Order) {
         setOrdersToShowRoute(prevOrders => {
             if (prevOrders.find(order => order == newOrder)) {
                 return prevOrders.filter(order => order != newOrder);
@@ -28,16 +33,18 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
                 return [...prevOrders, newOrder];
             }
         });
-     }
+    }
 
     function displayTruckOrders() {
-        return truckOrders.map(order => <div className={styles.divTruckOrder} draggable="true" onDragStart={(ev) => onDragStart(ev, order)} key={order._id}>
-            Dest: {order.destination} &nbsp;
-            W: {order.weight}
-            <button className={styles.btnEye} onClick={()=>toggleOrdersToShow(order)}>
-                <img className={styles.imgEye} src={ordersToShowRoute.find(it => it == order) ? closedEye : openEye} alt="" />
-            </button>
-        </div>)
+        return truckOrders.map(order => <>
+            <div className={styles.divTruckOrder} draggable="true" onDragStart={(ev) => onDragStart(ev, order)} key={order._id}>
+                Dest: {order.destination} &nbsp;
+                W: {order.weight}
+                <button className={styles.btnEye} onClick={() => toggleOrdersToShow(order)}>
+                    <img className={styles.imgEye} src={ordersToShowRoute.find(it => it == order) ? closedEye : openEye} alt="" />
+                </button>
+            </div>
+        </>)
     }
 
     function onDragOver(ev: React.DragEvent<HTMLDivElement>) {
@@ -54,6 +61,10 @@ export default function DispatcherTruckItem({ truckItem, truckOrders, onDragStar
                 TC: {truckItem.capacity} &nbsp;
                 CC: {currentCapacity}
                 {expand && displayTruckOrders()}
+                {expand && <div className={styles.divTruckMessage}>
+                    <input className={styles.inputMessage} type="text" id="message" placeholder="Message to driver" onChange={onChangeMessage}/>
+                    <button className={styles.btnEye}>⇒</button>
+                </div>}
             </div>
 
         </>

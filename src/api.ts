@@ -2,8 +2,8 @@ import axios from "axios";
 import { useError } from "./context/globalErrorContext/globalErrorContext";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_BASE_URL, // Use your backend URL
-  timeout: 10000, // Optional: Set request timeout
+  baseURL: import.meta.env.VITE_BACKEND_BASE_URL, 
+  timeout: 10000,
 });
 
 // api.interceptors.request.use(
