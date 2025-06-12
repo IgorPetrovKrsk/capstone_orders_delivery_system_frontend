@@ -123,8 +123,7 @@ export default function DispatcherDashBoard() {
             />)
     }
 
-    function onDragStart(ev: React.DragEvent<HTMLDivElement>, it: Order) {
-        ev.preventDefault();
+    function onDragStart(_ev: React.DragEvent<HTMLDivElement>, it: Order) { //_ev - to show typescript that parametr ev is nessesary, but never used
         setDraggingOrder(it);
     }
 
