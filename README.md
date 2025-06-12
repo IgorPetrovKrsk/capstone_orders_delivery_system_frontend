@@ -66,4 +66,13 @@ User edit page:
 
 ![image](https://github.com/user-attachments/assets/b869735e-3f52-4460-b738-bb788919abae)
 
+Dispatcher Dashboard:
+
+![image](https://github.com/user-attachments/assets/1795da07-8758-45e8-9688-3547bd42f709)
+
+Driver Dashboard with the message from dispatcher:
+
+![image](https://github.com/user-attachments/assets/034dc509-0130-4386-9062-e74b97db0c0b)
+
+
 
