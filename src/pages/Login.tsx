@@ -1,12 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/authContext/authContext";
 import style from './login.module.css'
 
 export default function Login() {
 
-    const nav = useNavigate();
-    const { login, cookies } = useAuth();
+    const { login } = useAuth();
 
     const [formData, setFormData] = useState({
         username: '',
