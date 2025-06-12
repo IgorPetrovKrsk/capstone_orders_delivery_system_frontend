@@ -1,17 +1,58 @@
-# Orders delivery frontend
+# 🚛 Transport Management System – Frontend
 
-[BackEnd GitHub](https://github.com/IgorPetrovKrsk/capstone_orders_delivery_system_backend)
+[🔗 Live Site](https://transport-management-system-frontend.onrender.com/)  
+[🔧 Backend Repo](https://github.com/IgorPetrovKrsk/capstone_orders_delivery_system_backend)
+
+## 📘 Overview
+
+This is the frontend of the Transport Management System. It allows Admins, Dispatchers, and Drivers to interact with trucks, orders, users, and messaging. The app is built with React (Vite + TypeScript) and uses Google Maps for live route visualization, WebSockets for real-time updates, and AWS S3 for image uploads.
 
 ---
 
-Full Stack application for Transport Management
-Features:
-- CRUD operations for trucks, orders, and users.
-- TypeScript as main development stack for both Frontend and Backend.
-- MongoDB with Mongoose as the database to store data.
-- AWS S3 bucket to store user and truck images, Google Maps API to visualize truck routes, Winston for logging.
-- Express.js to create a RESTful API for handling backend logic and database interactions.
-- React for a dynamic and interactive frontend UI, Axios for making API requests and handling network errors.
+## 🚀 Features
+
+- 🔐 JWT authentication via cookies
+- 🧭 Role-based routing for Admin, Dispatcher, and Driver
+- 📍 Google Maps integration with polyline route rendering
+- 💬 WebSocket real-time chat between Dispatcher and Driver
+- 🚚 Order and truck management interfaces
+- 📷 Image uploads to AWS S3 (via backend)
+- 🌐 Responsive layout with interactive maps and dashboards
+
+---
+
+## ⚙️ Tech Stack
+
+- **React** + **TypeScript** (Vite)
+- **React Router**
+- **Context API** for global auth state
+- **Axios** for API requests
+- **Socket.IO client** for WebSocket communication
+- **Google Maps JavaScript API**
+- **AWS S3** via backend for file uploads
+
+---
+
+## 🗺️ Google Maps
+
+- Uses the Google Maps JS API via `@vis.gl/react-google-maps`
+- Draws delivery routes using encoded polylines from the backend
+- Center coordinates are configured via environment variables
+
+---
+
+## 📡 WebSocket Messaging
+
+- Real-time communication between Dispatcher and Drivers
+- Supports chat messages and live updates to active orders
+
+---
+
+## 📷 Image Uploads
+
+- Profile and truck images are uploaded to **AWS S3** via the backend
+- AWS credentials are **not exposed** on the frontend
+
 ---
 Login page:
 
