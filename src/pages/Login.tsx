@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/authContext/authContext";
 import style from './login.module.css'
+import comradeCodichTrucksLogo from '../assets/Comrade Codich Trucks.png';
 
 export default function Login() {
 
@@ -26,10 +27,12 @@ export default function Login() {
 
     }
 
+    console.log(comradeCodichTrucksLogo);
+
     return (
         <div className={style.login}>
             <div>
-                <img src="src\assets\Comrade Codich Trucks.png" alt="Comrade Codich Trucks Logo" width={'70%'} />
+                <img src={comradeCodichTrucksLogo} alt="Comrade Codich Trucks Logo" width={'70%'} />
             </div>
             <h2>Login</h2>
             <form autoComplete='off' onSubmit={onSubmit}>

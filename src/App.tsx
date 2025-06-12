@@ -12,7 +12,7 @@ import NotFound from './pages/NotFound/NotFound';
 import AdminDashBoardUsers from './pages/Dashboards/AdminDashboardUsers';
 import DispatcherDashBoardTrucks from './pages/Dashboards/DispatcherDashboardTrucks';
 import DispatcherDashBoardOrders from './pages/Dashboards/DispatcherDashboardOrders';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
 
 function App() {
   Modal.setAppElement('#root');
