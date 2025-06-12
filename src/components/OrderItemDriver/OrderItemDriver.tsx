@@ -2,7 +2,6 @@ import { useState } from "react";
 import api from "../../api";
 import { useAuth } from "../../context/authContext/authContext";
 import type { Order } from "../../interfaces/OrderInterface";
-import { useError } from "../../context/globalErrorContext/globalErrorContext";
 import styles from './orderItemDriver.module.css'
 
 interface OrderItemProps {
@@ -12,7 +11,6 @@ interface OrderItemProps {
 
 export default function OrderItemDriver({ orderItem, setUpdateOrders }: OrderItemProps) {
 
-    const { showError } = useError();
     const { cookies } = useAuth();
     const [expand, setExpand] = useState(false);
 

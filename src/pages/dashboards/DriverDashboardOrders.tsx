@@ -24,7 +24,13 @@ export default function DriverDashBoardOrders() {
         };
         ws.current.onmessage = (event) => {
             const data = JSON.parse(event.data.toString());
-            showError({ title: `Message from ${data.from??'!Unknown!'}`, errors: [{ msg: data.message }] });
+            if (data.command) {
+                if (data.command=='OrderAdded' || data.command=='OrderRemoved'){
+                    setUpdateOrders(state => !state);
+                }
+            } else {
+                showError({ title: `Message from ${data.from ?? '!Unknown!'}`, errors: [{ msg: data.message }] });
+            }
         };
         ws.current.onclose = () => {
             console.log('WebSocket disconnected');

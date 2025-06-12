@@ -70,7 +70,6 @@ export default function DispatcherDashBoard() {
     }, []);
 
     useEffect(() => { //this use effect will fetch routes for selected orders using google DirectionsService
-
         async function getRoutes() {
             const service = new window.google.maps.DirectionsService();
             const results = await Promise.all(
@@ -139,6 +138,9 @@ export default function DispatcherDashBoard() {
                     });
                 setDraggingOrder(null);
                 setUpdateTrucksOrders(c => !c);
+                if (ws.current && ws.current.readyState === WebSocket.OPEN) { //sending a webSocket to the truck to forse update the orders
+                    ws.current.send(JSON.stringify({ truck: truck , command: 'OrderAdded'}));
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -149,6 +151,7 @@ export default function DispatcherDashBoard() {
         ev.preventDefault();
         if (draggingOrder) {
             try {
+                const currentTruck = draggingOrder.truck;
                 await api.put(`/orders/${draggingOrder._id}`,
                     { truck: null, status: 'pending' },
                     {
@@ -156,6 +159,9 @@ export default function DispatcherDashBoard() {
                     });
                 setDraggingOrder(null);
                 setUpdateTrucksOrders(c => !c);
+                  if (ws.current && ws.current.readyState === WebSocket.OPEN) { //sending a webSocket to the truck to forse update the orders
+                    ws.current.send(JSON.stringify({ truck:currentTruck, command: 'OrderRemoved'}));
+                }
             } catch (err) {
                 console.error(err);
             }
