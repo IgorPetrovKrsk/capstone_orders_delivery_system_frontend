@@ -25,9 +25,7 @@ export default function Login() {
             console.error(err);
         }
 
-    }
-
-    console.log(comradeCodichTrucksLogo);
+    }    
 
     return (
         <div className={style.login}>
