@@ -1,0 +1,51 @@
+.divMain {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;
+    width: 100vw;
+    height: 100vh;
+}
+
+.divTrucksOrders {
+    display: flex;
+}
+
+
+.divTrucks {}
+
+.divMap {    
+    width: 95% !important;
+    height: 60%;
+    min-height: 400px;
+    min-width: 400px;
+    position: relative;
+}
+
+
+.tableUsers,
+.tableTrucks,
+.tableOrders {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid;
+    padding: 8px;
+    text-align: center;
+}
+
+.resizable {
+    resize: both;
+    overflow: auto;
+    min-width: 10%;
+    width: 33%;
+    border: 1px solid whitesmoke;
+    margin: 5px;
+}
+
+h4 {
+    text-align: center;
+    margin: 0px;
+}
