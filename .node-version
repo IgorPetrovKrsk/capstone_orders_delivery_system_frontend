@@ -1,1 +1,1 @@
-echo "20.14.0" > .node-version
+echo "22.14.0" > .node-version
