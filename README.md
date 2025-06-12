@@ -28,7 +28,7 @@ This is the frontend of the Transport Management System. It allows Admins, Dispa
 - **React Router**
 - **Context API** for global auth state
 - **Axios** for API requests
-- **Socket.IO client** for WebSocket communication
+- **WebSocket** communication
 - **Google Maps JavaScript API**
 - **AWS S3** via backend for file uploads
 
