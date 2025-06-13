@@ -4,6 +4,7 @@ import { useAuth } from "../../context/authContext/authContext";
 import type { User } from "../../interfaces/UserInterface";
 import styles from './userItem.module.css'
 import UserItemAddModify from "./UserItemAddModify";
+import userNotFoundImage from '../../assets/user image not found.png'
 
 interface UserItemProps {
     userItem: User;
@@ -47,7 +48,7 @@ export default function UserItem({ userItem, setUpdateUsers }: UserItemProps) {
     return (
         <>
             <tr>
-                <td>{(userItem._id!='')?<img className={styles.imgUser} src={userItem.imgUrl || 'src/assets/user image not found.png'} alt={`Image of ${userItem.username}`} />:null}</td>
+                <td>{(userItem._id!='')?<img className={styles.imgUser} src={userItem.imgUrl || userNotFoundImage} alt={`Image of ${userItem.username}`} />:null}</td>
                 <td className={styles.tdUsernameRole}>{userItem.username}</td>
                 <td className={styles.tdUsernameRole}>{(userItem._id!='')?userItem.role:null}</td>
                 <td>{userItem.truck?.licensePlate}</td>
