@@ -12,13 +12,13 @@ This is the frontend of the Transport Management System. It allows Admins, Dispa
 
 ## Main Users for testing
 
-Username: admin 
+Username: admin  
 Password: admin 
 
-Username: dispatcher 
+Username: dispatcher  
 Password: dispatcher
 
-Username: driver 
+Username: driver  
 Password: driver
 
 ---
