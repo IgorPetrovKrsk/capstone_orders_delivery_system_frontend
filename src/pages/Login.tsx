@@ -55,6 +55,15 @@ export default function Login() {
                     Log In
                 </button>
             </form>
+            <br />
+            <br />
+            <h4>Logins and passwords for testing</h4>
+            admin | admin
+            <br />
+            dispatcher | dispatcher
+            <br />
+            driver | driver
+                
         </div>
     );
 }
